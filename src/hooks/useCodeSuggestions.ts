@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import type * as monaco from "monaco-editor";
 import { type MonacoInstance } from "@/app/types/monacoEditor";
-
+import { type Language } from "@/app/types/editorSettings";
 const useCodeSuggestions = (
 	monacoInstance: MonacoInstance | null,
-	language: string
+	language: Language
 ) => {
 	useEffect(() => {
 		if (!monacoInstance) return;

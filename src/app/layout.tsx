@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { StoreProvider } from "@/components/storeProvider";
 
 export const metadata: Metadata = {
 	title: "Code editor",
@@ -18,7 +19,9 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={GeistSans.className}>
-				<TRPCReactProvider>{children}</TRPCReactProvider>
+				<TRPCReactProvider>
+					<StoreProvider>{children}</StoreProvider>
+				</TRPCReactProvider>
 			</body>
 		</html>
 	);
