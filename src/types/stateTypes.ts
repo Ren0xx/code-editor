@@ -40,3 +40,6 @@ export type SettingsState = {
 	language: Language;
 };
 
+export type CodeState = {
+	code: string;
+};

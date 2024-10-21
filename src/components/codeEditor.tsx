@@ -4,22 +4,23 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 import { loader } from "@monaco-editor/react";
-import { type MonacoInstance } from "@/app/types/monacoEditor";
+import { type MonacoInstance } from "@/types/monacoEditor";
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
-	ssr: false,
+	// ssr: false,
 });
 
 import useCodeSuggestions from "@/hooks/useCodeSuggestions";
 
-import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import { changeTheme, changeLanguage } from "@/app/lib/settings/settingsSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { changeTheme, changeLanguage } from "@/lib/settings/settingsSlice";
+import { changeCode } from "@/lib/code/codeSlice";
 
 import {
 	languageOptions,
 	themeOptions,
 	type Language,
 	type Theme,
-} from "@/app/types/editorSettings";
+} from "@/types/stateTypes";
 
 const CodeEditor = () => {
 	const [monacoInstance, setMonacoInstance] = useState<MonacoInstance | null>(
@@ -27,6 +28,7 @@ const CodeEditor = () => {
 	);
 
 	const { theme, language } = useAppSelector((state) => state.settings);
+	const { code } = useAppSelector((state) => state.code);
 	const dispatch = useAppDispatch();
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,6 +36,9 @@ const CodeEditor = () => {
 	};
 	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(changeLanguage(e.target.value as Language));
+	};
+	const handleCodeChange = (e: string | undefined) => {
+		dispatch(changeCode(e!));
 	};
 
 	useEffect(() => {
@@ -53,10 +58,10 @@ const CodeEditor = () => {
 		<div>
 			<MonacoEditor
 				height='90vh'
-				// defaultLanguage={language}
-				defaultValue='// Start coding here!'
+				defaultValue={code}
 				theme={theme}
 				language={language}
+				onChange={(e) => handleCodeChange(e)}
 			/>
 			<div>
 				<select value={language} onChange={handleLanguageChange}>

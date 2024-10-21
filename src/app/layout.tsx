@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
-import { StoreProvider } from "@/components/storeProvider";
+import { StoreProvider } from "@/components/StoreProvider";
 
 export const metadata: Metadata = {
 	title: "Code editor",
