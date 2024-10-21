@@ -1,4 +1,5 @@
 import { type Language } from "@/types/stateTypes";
+import { saveAs } from "file-saver";
 
 const getFileExtension = (lang: Language) => {
 	const extensionMap: { [key in Language]: string } = {
@@ -41,16 +42,7 @@ const saveCodeToFile = (language: Language, code: string) => {
 	const fileName = `code.${fileExtension}`;
 
 	const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
-	const url = URL.createObjectURL(blob);
-
-	const link = document.createElement("a");
-	link.href = url;
-	link.download = fileName;
-	document.body.appendChild(link);
-	link.click();
-
-	document.body.removeChild(link);
-	URL.revokeObjectURL(url);
+	saveAs(blob, fileName);
 };
 export { saveCodeToFile };
 

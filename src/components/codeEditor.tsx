@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { loader } from "@monaco-editor/react";
 import { type MonacoInstance } from "@/types/monacoEditor";
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
-	// ssr: false,
+	ssr: false,
 });
 
 import useCodeSuggestions from "@/hooks/useCodeSuggestions";
