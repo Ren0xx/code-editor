@@ -1,5 +1,8 @@
 import { saveCodeToFile } from "@/app/utils/helperFunctions";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+
+import SaveIcon from "@mui/icons-material/Save";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useAppSelector } from "@/lib/hooks";
 
 const SideSection = () => {
@@ -9,11 +12,23 @@ const SideSection = () => {
 	const handleClick = () => {
 		saveCodeToFile(language, code);
 	};
+	const copyToClipboard = () => {
+		void navigator.clipboard.writeText(code);
+	};
 	return (
 		<div>
-			<Button onClick={handleClick} variant='contained'>
-				Save code as file
-			</Button>
+			<IconButton
+				aria-label='save code as file'
+				onClick={handleClick}
+				size='large'>
+				<SaveIcon />
+			</IconButton>
+			<IconButton
+				aria-label='copy code to clipboard'
+				onClick={copyToClipboard}
+				size='large'>
+				<ContentCopyIcon />
+			</IconButton>
 		</div>
 	);
 };
