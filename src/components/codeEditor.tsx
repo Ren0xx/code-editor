@@ -12,8 +12,8 @@ const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
 import useCodeSuggestions from "@/hooks/useCodeSuggestions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { changeTheme, changeLanguage } from "@/lib/settings/settingsSlice";
-import { changeCode } from "@/lib/code/codeSlice";
+import { changeTheme } from "@/lib/settings/settingsSlice";
+import { changeCurrentCode, changeCurrentLanguage } from "@/lib/code/codeSlice";
 
 import {
 	languageOptions,
@@ -27,18 +27,20 @@ const CodeEditor = () => {
 		null
 	);
 
-	const { theme, language } = useAppSelector((state) => state.settings);
-	const { code } = useAppSelector((state) => state.code);
+	const { theme } = useAppSelector((state) => state.settings);
+	const { currentCode, currentLanguage } = useAppSelector(
+		(state) => state.code
+	);
 	const dispatch = useAppDispatch();
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(changeTheme(e.target.value as Theme));
 	};
 	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(changeLanguage(e.target.value as Language));
+		dispatch(changeCurrentLanguage(e.target.value as Language));
 	};
-	const handleCodeChange = (e: string | undefined) => {
-		dispatch(changeCode(e!));
+	const handleCodeChange = (e: string) => {
+		dispatch(changeCurrentCode(e));
 	};
 
 	useEffect(() => {
@@ -52,19 +54,19 @@ const CodeEditor = () => {
 			});
 	}, []);
 
-	useCodeSuggestions(monacoInstance, language);
+	useCodeSuggestions(monacoInstance, currentLanguage);
 
 	return (
 		<div>
 			<MonacoEditor
 				height='90vh'
-				defaultValue={code}
+				value={currentCode}
 				theme={theme}
-				language={language}
-				onChange={(e) => handleCodeChange(e)}
+				language={currentLanguage}
+				onChange={(e) => handleCodeChange(e!)}
 			/>
 			<div>
-				<select value={language} onChange={handleLanguageChange}>
+				<select value={currentLanguage} onChange={handleLanguageChange}>
 					{languageOptions.map((lang) => (
 						<option key={lang} value={lang}>
 							{lang}
@@ -84,4 +86,3 @@ const CodeEditor = () => {
 };
 
 export default CodeEditor;
-

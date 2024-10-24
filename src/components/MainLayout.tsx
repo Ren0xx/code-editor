@@ -9,7 +9,6 @@ const MainLayout = () => {
 		<main>
 			<Grid container>
 				<Grid size={3}>
-					<h1>Side bar</h1>
 					<SideSection />
 				</Grid>
 				<Grid size={9}>

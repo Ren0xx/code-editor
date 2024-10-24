@@ -37,9 +37,17 @@ export type Language = (typeof languageOptions)[number];
 
 export type SettingsState = {
 	theme: Theme;
-	language: Language;
 };
 
-export type CodeState = {
+export type File = {
 	code: string;
+	language: Language;
+	name: string;
 };
+export type CodeState = {
+	currentCode: string;
+	currentFileName: string;
+	currentLanguage: Language;
+	files: File[];
+};
+
