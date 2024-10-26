@@ -45,9 +45,7 @@ export type File = {
 	name: string;
 };
 export type CodeState = {
-	currentCode: string;
-	currentFileName: string;
-	currentLanguage: Language;
+	activeFile: File;
 	files: File[];
 };
 

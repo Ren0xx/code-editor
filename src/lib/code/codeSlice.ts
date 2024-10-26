@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CodeState, File, Language } from "@/types/stateTypes";
-
-const defaultCode = "// Start coding here!";
-const defaultFileName = "index.js";
-const defaultLanguage: Language = "javascript";
+import {
+	defaultCode,
+	defaultFileName,
+	defaultLanguage,
+} from "@/app/utils/constants";
 
 const defaultFile: File = {
 	code: defaultCode,
@@ -13,10 +13,8 @@ const defaultFile: File = {
 };
 
 const initialState: CodeState = {
-	currentCode: defaultCode,
-	currentFileName: defaultFileName,
-	currentLanguage: defaultLanguage,
 	files: [defaultFile],
+	activeFile: defaultFile,
 };
 
 export const codeSlice = createSlice({
@@ -24,39 +22,37 @@ export const codeSlice = createSlice({
 	initialState,
 	reducers: {
 		changeCurrentCode: (state, action: PayloadAction<string>) => {
-			state.currentCode = action.payload;
-		},
-		changeCurrentFile: (state, action: PayloadAction<File>) => {
-			const { currentCode, currentFileName, currentLanguage } = state;
-
-			//adding updated file to file array
-			const updatedFile: File = {
-				code: currentCode,
-				language: currentLanguage,
-				name: currentFileName,
-			};
-
-			state.files = state.files.map((file) => {
-				if (file.name === currentFileName) {
-					return updatedFile;
-				} else {
-					return file;
-				}
-			});
-
-			//swapping to new file
-			const { code, language, name } = action.payload;
-
-			state.currentCode = code;
-			state.currentFileName = name;
-			state.currentLanguage = language;
+			if (state.activeFile) {
+				state.activeFile.code = action.payload;
+			}
+			const index = state.files.findIndex(
+				(file) => file.name === state.activeFile?.name
+			);
+			if (index !== -1) {
+				state.files[index] = { ...state.activeFile };
+			}
 		},
 		changeCurrentLanguage: (state, action: PayloadAction<Language>) => {
-			state.currentLanguage = action.payload;
+			if (state.activeFile) {
+				state.activeFile.language = action.payload;
+
+				const index = state.files.findIndex(
+					(file) => file.name === state.activeFile?.name
+				);
+				if (index !== -1) {
+					state.files[index] = { ...state.activeFile };
+				}
+			}
+		},
+		changeActiveFile: (state, action: PayloadAction<number>) => {
+			const newIndex = action.payload;
+			if (newIndex >= 0 && newIndex < state.files.length) {
+				state.activeFile = state.files[newIndex]!;
+			}
 		},
 		createFile: (state, action: PayloadAction<File>) => {
-			const newFile: File = action.payload;
-			state.files.push(newFile);
+			state.files.push(action.payload);
+			state.activeFile = action.payload;
 		},
 	},
 });
@@ -64,7 +60,7 @@ export const codeSlice = createSlice({
 export const {
 	changeCurrentCode,
 	changeCurrentLanguage,
-	changeCurrentFile,
+	changeActiveFile,
 	createFile,
 } = codeSlice.actions;
 export default codeSlice.reducer;

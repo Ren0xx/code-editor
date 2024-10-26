@@ -28,9 +28,8 @@ const CodeEditor = () => {
 	);
 
 	const { theme } = useAppSelector((state) => state.settings);
-	const { currentCode, currentLanguage } = useAppSelector(
-		(state) => state.code
-	);
+	const { code, language } = useAppSelector((state) => state.code.activeFile);
+
 	const dispatch = useAppDispatch();
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,19 +53,19 @@ const CodeEditor = () => {
 			});
 	}, []);
 
-	useCodeSuggestions(monacoInstance, currentLanguage);
+	useCodeSuggestions(monacoInstance, language);
 
 	return (
 		<div>
 			<MonacoEditor
 				height='90vh'
-				value={currentCode}
+				value={code}
 				theme={theme}
-				language={currentLanguage}
+				language={language}
 				onChange={(e) => handleCodeChange(e!)}
 			/>
 			<div>
-				<select value={currentLanguage} onChange={handleLanguageChange}>
+				<select value={language} onChange={handleLanguageChange}>
 					{languageOptions.map((lang) => (
 						<option key={lang} value={lang}>
 							{lang}

@@ -1,22 +1,23 @@
 import { type File } from "@/types/stateTypes";
 import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { changeCurrentFile } from "@/lib/code/codeSlice";
+import { changeActiveFile } from "@/lib/code/codeSlice";
 
 type FileProps = {
 	file: File;
+	fileIndex: number;
 };
-const File = ({ file }: FileProps) => {
-    const { currentFileName } = useAppSelector((state) => state.code);
+const File = ({ file,  fileIndex }: FileProps) => {
+	const { activeFile } = useAppSelector((state) => state.code);
 	const dispatch = useAppDispatch();
 
-	const handleClick = () => {
-		if (currentFileName === file.name) return;
-		dispatch(changeCurrentFile(file));
+	const handleFileSelect = () => {
+		if (activeFile.name === file.name) return;
+		dispatch(changeActiveFile(fileIndex));
 	};
 	return (
 		<span>
-			<Button variant='outlined' color='secondary' onClick={handleClick}>
+			<Button variant='outlined' color='secondary' onClick={handleFileSelect}>
 				{file.name}
 			</Button>
 		</span>

@@ -1,32 +1,21 @@
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/lib/hooks";
 import File from "@/components/File";
-import { createFile } from "@/lib/code/codeSlice";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
+
 const FileList = () => {
 	const { files } = useAppSelector((state) => state.code);
-	const dispatch = useAppDispatch();
 
-	const handleClick = () => {
-		dispatch(createFile(mockFile));
-	};
 	return (
 		<div>
 			<h2>File list</h2>
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
-				{files.map((file) => (
-					<File key={file.name} file={file} />
+				{files.map((file, index) => (
+					<File key={file.name} file={file} fileIndex={index} />
 				))}
 			</Box>
-			<Button onClick={handleClick}>Create file</Button>
 		</div>
 	);
 };
 
 export default FileList;
-
-const mockFile = {
-	code: "test",
-	language: "javascript",
-	name: "test.js",
-} as const;
 

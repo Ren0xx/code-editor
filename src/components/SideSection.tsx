@@ -5,17 +5,16 @@ import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useAppSelector } from "@/lib/hooks";
 import FileList from "@/components/FileList";
+import CreateFileForm from "./CreateFileForm";
 
 const SideSection = () => {
-	const { currentCode, currentLanguage } = useAppSelector(
-		(state) => state.code
-	);
+	const { code, language } = useAppSelector((state) => state.code.activeFile);
 
 	const handleClick = () => {
-		saveCodeToFile(currentLanguage, currentCode);
+		saveCodeToFile(language, code);
 	};
 	const copyToClipboard = () => {
-		void navigator.clipboard.writeText(currentCode);
+		void navigator.clipboard.writeText(code);
 	};
 	return (
 		<aside>
@@ -34,6 +33,7 @@ const SideSection = () => {
 				</IconButton>
 			</div>
 			<FileList />
+			<CreateFileForm />
 		</aside>
 	);
 };
