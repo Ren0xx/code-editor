@@ -1,13 +1,13 @@
 import { type File } from "@/types/stateTypes";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { changeActiveFile } from "@/lib/code/codeSlice";
+import { changeActiveFile, deleteFile } from "@/lib/code/codeSlice";
 
 type FileProps = {
 	file: File;
 	fileIndex: number;
 };
-const File = ({ file,  fileIndex }: FileProps) => {
+const File = ({ file, fileIndex }: FileProps) => {
 	const { activeFile } = useAppSelector((state) => state.code);
 	const dispatch = useAppDispatch();
 
@@ -15,11 +15,22 @@ const File = ({ file,  fileIndex }: FileProps) => {
 		if (activeFile.name === file.name) return;
 		dispatch(changeActiveFile(fileIndex));
 	};
+	const handleFileDelete = () => {
+		dispatch(deleteFile(fileIndex));
+	};
 	return (
 		<span>
-			<Button variant='outlined' color='secondary' onClick={handleFileSelect}>
-				{file.name}
-			</Button>
+			<Box>
+				<Button
+					variant='outlined'
+					color='secondary'
+					onClick={handleFileSelect}>
+					{file.name}
+				</Button>
+				<Button color='error' onClick={handleFileDelete}>
+					X
+				</Button>
+			</Box>
 		</span>
 	);
 };

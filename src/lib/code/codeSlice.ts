@@ -42,10 +42,26 @@ export const codeSlice = createSlice({
 			state.files.push(action.payload);
 			state.activeFile = action.payload;
 		},
+		deleteFile: (state, action: PayloadAction<number>) => {
+			//cannot delete last file
+			if (state.files.length === 1) return;
+
+			const index = action.payload;
+			const isDeletingActiveFile =
+				state.files[index]?.name === state.activeFile.name;
+
+			// Remove the file from the files array
+			state.files.splice(index, 1);
+
+			// If the active file was deleted, set a new active file
+			if (isDeletingActiveFile) {
+				state.activeFile = state.files[index - 1] ?? state.files[0]!;
+			}
+		},
 	},
 });
 
-export const { changeCurrentCode, changeActiveFile, createFile } =
+export const { changeCurrentCode, changeActiveFile, createFile, deleteFile } =
 	codeSlice.actions;
 export default codeSlice.reducer;
 

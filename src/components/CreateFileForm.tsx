@@ -13,7 +13,7 @@ import { isUniqueFileName, isValidFileName } from "@/app/utils/validation";
 import { TextField, Button, Box } from "@mui/material";
 
 const CreateFileForm = () => {
-	const [fileName, setFileName] = useState<string>("");
+	const [fileName, setFileName] = useState<string>("test.ts");
 	const [error, setError] = useState<string | null>(null);
 	const files = useAppSelector((state) => state.code.files);
 	const dispatch = useAppDispatch();
