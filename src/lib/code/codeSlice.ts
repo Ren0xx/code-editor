@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CodeState, File, Language } from "@/types/stateTypes";
+import type { CodeState, File } from "@/types/stateTypes";
 import {
 	defaultCode,
 	defaultFileName,
@@ -32,18 +32,6 @@ export const codeSlice = createSlice({
 				state.files[index] = { ...state.activeFile };
 			}
 		},
-		changeCurrentLanguage: (state, action: PayloadAction<Language>) => {
-			if (state.activeFile) {
-				state.activeFile.language = action.payload;
-
-				const index = state.files.findIndex(
-					(file) => file.name === state.activeFile?.name
-				);
-				if (index !== -1) {
-					state.files[index] = { ...state.activeFile };
-				}
-			}
-		},
 		changeActiveFile: (state, action: PayloadAction<number>) => {
 			const newIndex = action.payload;
 			if (newIndex >= 0 && newIndex < state.files.length) {
@@ -57,11 +45,7 @@ export const codeSlice = createSlice({
 	},
 });
 
-export const {
-	changeCurrentCode,
-	changeCurrentLanguage,
-	changeActiveFile,
-	createFile,
-} = codeSlice.actions;
+export const { changeCurrentCode, changeActiveFile, createFile } =
+	codeSlice.actions;
 export default codeSlice.reducer;
 

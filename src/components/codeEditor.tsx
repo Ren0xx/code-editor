@@ -13,14 +13,9 @@ import useCodeSuggestions from "@/hooks/useCodeSuggestions";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeTheme } from "@/lib/settings/settingsSlice";
-import { changeCurrentCode, changeCurrentLanguage } from "@/lib/code/codeSlice";
+import { changeCurrentCode } from "@/lib/code/codeSlice";
 
-import {
-	languageOptions,
-	themeOptions,
-	type Language,
-	type Theme,
-} from "@/types/stateTypes";
+import { themeOptions, type Theme } from "@/types/stateTypes";
 
 const CodeEditor = () => {
 	const [monacoInstance, setMonacoInstance] = useState<MonacoInstance | null>(
@@ -34,9 +29,6 @@ const CodeEditor = () => {
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(changeTheme(e.target.value as Theme));
-	};
-	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(changeCurrentLanguage(e.target.value as Language));
 	};
 	const handleCodeChange = (e: string) => {
 		dispatch(changeCurrentCode(e));
@@ -64,22 +56,14 @@ const CodeEditor = () => {
 				language={language}
 				onChange={(e) => handleCodeChange(e!)}
 			/>
-			<div>
-				<select value={language} onChange={handleLanguageChange}>
-					{languageOptions.map((lang) => (
-						<option key={lang} value={lang}>
-							{lang}
-						</option>
-					))}
-				</select>
-				<select value={theme} onChange={handleThemeChange}>
-					{themeOptions.map((theme) => (
-						<option key={theme} value={theme}>
-							{theme}
-						</option>
-					))}
-				</select>
-			</div>
+			<select value={theme} onChange={handleThemeChange}>
+				{themeOptions.map((theme) => (
+					<option key={theme} value={theme}>
+						{theme}
+					</option>
+				))}
+			</select>
+			<h3>Current Language: {language}</h3>
 		</div>
 	);
 };
