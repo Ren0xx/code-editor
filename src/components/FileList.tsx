@@ -10,7 +10,9 @@ const FileList = () => {
 			<h2>File list</h2>
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
 				{files.map((file, index) => (
-					<File key={file.name} file={file} fileIndex={index} />
+					<div key={index}>
+						<File file={file} fileIndex={index} />
+					</div>
 				))}
 			</Box>
 		</div>

@@ -34,9 +34,9 @@ const extensionMap: { [key in Language]: string } = {
 	lua: "lua",
 };
 
-const getFileExtension = (lang: Language) => {
-	return extensionMap[lang] || "txt";
-};
+// const getFileExtension = (lang: Language) => {
+// 	return extensionMap[lang] || "txt";
+// };
 const getLanguageFromExtension = (extension: string): Language | undefined => {
 	const languageMap = Object.fromEntries(
 		Object.entries(extensionMap).map(([lang, ext]) => [ext, lang])
@@ -45,13 +45,10 @@ const getLanguageFromExtension = (extension: string): Language | undefined => {
 	return languageMap[extension];
 };
 
-const saveCodeToFile = (language: Language, code: string) => {
-	const fileExtension = getFileExtension(language);
-	const fileName = `code.${fileExtension}`;
-
+const saveCodeToFile = (code: string, name: string) => {
 	const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
-	saveAs(blob, fileName);
+	saveAs(blob, name);
 };
 
-export { saveCodeToFile, getFileExtension, getLanguageFromExtension };
+export { saveCodeToFile, getLanguageFromExtension };
 
