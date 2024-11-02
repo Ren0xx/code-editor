@@ -49,21 +49,27 @@ const CodeEditor = () => {
 
 	return (
 		<div>
-			<MonacoEditor
-				height='90vh'
-				value={code}
-				theme={theme}
-				language={language}
-				onChange={(e) => handleCodeChange(e!)}
-			/>
-			<select value={theme} onChange={handleThemeChange}>
-				{themeOptions.map((theme) => (
-					<option key={theme} value={theme}>
-						{theme}
-					</option>
-				))}
-			</select>
-			<h3>Current Language: {language}</h3>
+			{monacoInstance !== null ? (
+				<>
+					<MonacoEditor
+						height='90vh'
+						value={code}
+						theme={theme}
+						language={language}
+						onChange={(e) => handleCodeChange(e!)}
+					/>
+					<select value={theme} onChange={handleThemeChange}>
+						{themeOptions.map((theme) => (
+							<option key={theme} value={theme}>
+								{theme}
+							</option>
+						))}
+					</select>
+					<h3>Current Language: {language}</h3>
+				</>
+			) : (
+				<h3>Loading</h3>
+			)}
 		</div>
 	);
 };

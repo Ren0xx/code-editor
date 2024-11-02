@@ -10,7 +10,7 @@ type FileProps = {
 	file: File;
 	fileIndex: number;
 };
-const File = (props: FileProps) => {
+const SingleFile = (props: FileProps) => {
 	const { file, fileIndex } = props;
 	const { activeFile } = useAppSelector((state) => state.code);
 
@@ -43,7 +43,7 @@ const File = (props: FileProps) => {
 	};
 
 	return (
-		<span>
+		<>
 			<Box>
 				<Button
 					variant='outlined'
@@ -70,19 +70,21 @@ const File = (props: FileProps) => {
 			<RenameModal
 				open={modalOpen}
 				fileIndex={fileIndex}
+				currentName={file.name}
 				setOpen={() => setModalOpen(false)}
 			/>
-		</span>
+		</>
 	);
 };
 
 type ModalProps = {
-	open: boolean;
+	currentName: string;
 	fileIndex: number;
+	open: boolean;
 	setOpen: (open: boolean) => void;
 };
 const RenameModal = (props: ModalProps) => {
-	const { open, fileIndex, setOpen } = props;
+	const { currentName, open, fileIndex, setOpen } = props;
 	const handleClose = () => setOpen(false);
 
 	const style = {
@@ -101,16 +103,14 @@ const RenameModal = (props: ModalProps) => {
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'>
 			<Box sx={style}>
-				<>
-					{fileIndex}
-					<CreateOrRenameFileForm
-						action='rename'
-						fileIndex={fileIndex}
-					/>
-				</>
+				<CreateOrRenameFileForm
+					action='rename'
+					fileIndex={fileIndex}
+					currentName={currentName}
+				/>
 			</Box>
 		</Modal>
 	);
 };
-export default File;
+export default SingleFile;
 

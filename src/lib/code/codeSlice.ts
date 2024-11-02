@@ -12,7 +12,7 @@ const defaultFile: File = {
 	name: defaultFileName,
 };
 
-const initialState: CodeState = {
+export const initialState: CodeState = {
 	files: [defaultFile],
 	activeFile: defaultFile,
 };

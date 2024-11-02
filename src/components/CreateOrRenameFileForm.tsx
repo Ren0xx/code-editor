@@ -15,11 +15,12 @@ import { TextField, Button, Box } from "@mui/material";
 type FormProps = {
 	action: "create" | "rename";
 	fileIndex?: number;
+	currentName?: string;
 };
 const CreateOrRenameFileForm = (props: FormProps) => {
-	const { action, fileIndex } = props;
+	const { action, fileIndex, currentName } = props;
 
-	const [fileName, setFileName] = useState<string>("test.ts");
+	const [fileName, setFileName] = useState<string>(currentName ?? "");
 	const [error, setError] = useState<string | null>(null);
 
 	const files = useAppSelector((state) => state.code.files);

@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/lib/hooks";
-import File from "@/components/File";
+import SingleFile from "@/components/SingleFile";
 import { Box } from "@mui/material";
 
 const FileList = () => {
@@ -11,7 +11,7 @@ const FileList = () => {
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
 				{files.map((file, index) => (
 					<div key={index}>
-						<File file={file} fileIndex={index} />
+						<SingleFile file={file} fileIndex={index} />
 					</div>
 				))}
 			</Box>
