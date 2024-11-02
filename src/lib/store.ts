@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
-import storage from "@/lib/storage"
+import storage from "@/lib/storage";
 import settingsReducer from "@/lib/settings/settingsSlice";
 import codeReducer from "@/lib/code/codeSlice";
 

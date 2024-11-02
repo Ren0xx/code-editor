@@ -1,10 +1,11 @@
-import "@/styles/globals.css";
-
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { StoreProvider } from "@/components/StoreProvider";
+import lightTheme from "@/styles/theme";
+import { ThemeProvider } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 export const metadata: Metadata = {
 	title: "Code editor",
@@ -18,11 +19,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='en'>
-			<body className={GeistSans.className}>
-				<TRPCReactProvider>
-					<StoreProvider>{children}</StoreProvider>
-				</TRPCReactProvider>
-			</body>
+			<AppRouterCacheProvider>
+				<ThemeProvider theme={lightTheme}>
+					<body className={GeistSans.className}>
+						<TRPCReactProvider>
+							<StoreProvider>{children}</StoreProvider>
+						</TRPCReactProvider>
+					</body>
+				</ThemeProvider>
+			</AppRouterCacheProvider>
 		</html>
 	);
 }

@@ -3,7 +3,6 @@
 import Grid from "@mui/material/Grid2";
 import CodeEditor from "@/components/CodeEditor";
 import SideSection from "@/components/SideSection";
-
 const MainLayout = () => {
 	return (
 		<main>
@@ -20,4 +19,3 @@ const MainLayout = () => {
 };
 
 export default MainLayout;
-

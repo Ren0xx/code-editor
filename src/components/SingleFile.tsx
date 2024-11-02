@@ -19,6 +19,7 @@ const SingleFile = (props: FileProps) => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
+	const isActiveFile = file.name === activeFile.name;
 
 	const handleFileSelect = () => {
 		if (activeFile.name === file.name) return;
@@ -46,8 +47,8 @@ const SingleFile = (props: FileProps) => {
 		<>
 			<Box>
 				<Button
-					variant='outlined'
-					color='secondary'
+					variant={isActiveFile ? "contained" : "outlined"}
+					color={isActiveFile ? "primary" : "secondary"}
 					onClick={handleFileSelect}
 					onContextMenu={handleRightClick}
 					ref={anchorRef}>
