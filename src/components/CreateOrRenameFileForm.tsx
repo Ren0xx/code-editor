@@ -93,4 +93,3 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 };
 
 export default CreateOrRenameFileForm;
-

@@ -7,7 +7,7 @@ import codeReducer from "@/lib/code/codeSlice";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["code"],
+	whitelist: ["code", "settings"],
 	timeout: 1000,
 };
 //instead of defining the reducers in the reducer field of configureStore, combine them here:

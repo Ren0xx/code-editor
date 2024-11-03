@@ -16,6 +16,8 @@ import { changeTheme } from "@/lib/settings/settingsSlice";
 import { changeCurrentCode } from "@/lib/code/codeSlice";
 
 import { themeOptions, type Theme } from "@/types/stateTypes";
+import { Button } from "@mui/material";
+import useChangeEditorOptions from "@/hooks/useChangeEditorOptions";
 
 const CodeEditor = () => {
 	const [monacoInstance, setMonacoInstance] = useState<MonacoInstance | null>(
@@ -24,7 +26,13 @@ const CodeEditor = () => {
 
 	const { theme } = useAppSelector((state) => state.settings);
 	const { code, language } = useAppSelector((state) => state.code.activeFile);
-
+	const editorOptions = useAppSelector((state) => state.settings.options);
+	const {
+		changeTabSizeToTwo,
+		changeTabSizeToFour,
+		increaseFont,
+		decreaseFont,
+	} = useChangeEditorOptions();
 	const dispatch = useAppDispatch();
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,11 +58,12 @@ const CodeEditor = () => {
 	return (
 		<div>
 			{monacoInstance !== null ? (
-				<>
+				<div>
 					<MonacoEditor
-						height='90vh'
+						height='80vh'
 						value={code}
 						theme={theme}
+						options={editorOptions}
 						language={language}
 						onChange={(e) => handleCodeChange(e!)}
 					/>
@@ -66,7 +75,17 @@ const CodeEditor = () => {
 						))}
 					</select>
 					<h3>Current Language: {language}</h3>
-				</>
+					<div>
+						<h3>Font Size:</h3>
+						<Button onClick={increaseFont}>+</Button>
+						<Button onClick={decreaseFont}>-</Button>
+					</div>
+					<div>
+						<h3>Tab Size:</h3>
+						<Button onClick={changeTabSizeToTwo}>2</Button>
+						<Button onClick={changeTabSizeToFour}>4</Button>
+					</div>
+				</div>
 			) : (
 				<h3>Loading</h3>
 			)}

@@ -1,16 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CodeState, File, Language } from "@/types/stateTypes";
-import {
-	defaultCode,
-	defaultFileName,
-	defaultLanguage,
-} from "@/app/utils/constants";
-
-const defaultFile: File = {
-	code: defaultCode,
-	language: defaultLanguage,
-	name: defaultFileName,
-};
+import { defaultFile } from "@/app/utils/constants";
 
 export const initialState: CodeState = {
 	files: [defaultFile],

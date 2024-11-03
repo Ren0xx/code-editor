@@ -37,6 +37,7 @@ export type Language = (typeof languageOptions)[number];
 
 export type SettingsState = {
 	theme: Theme;
+	options: Options;
 };
 
 export type File = {
@@ -47,5 +48,10 @@ export type File = {
 export type CodeState = {
 	activeFile: File;
 	files: File[];
+};
+
+export type Options = {
+	fontSize: number;
+	tabSize: number;
 };
 
