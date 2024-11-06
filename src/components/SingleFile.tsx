@@ -1,10 +1,10 @@
 "use client";
 import { type File } from "@/types/stateTypes";
 import { useRef, useState } from "react";
-import { Box, Button, Menu, MenuItem, Modal } from "@mui/material";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeActiveFile, deleteFile } from "@/lib/code/codeSlice";
-import CreateOrRenameFileForm from "@/components/CreateOrRenameFileForm";
+import { ConfirmModal, RenameModal } from "@/components/Modals/Modals";
 
 type FileProps = {
 	file: File;
@@ -16,7 +16,8 @@ const SingleFile = (props: FileProps) => {
 
 	const anchorRef = useRef<HTMLButtonElement | null>(null);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [renameModalOpen, setRenameModalOpen] = useState<boolean>(false);
+	const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 	const isActiveFile = file.name === activeFile.name;
@@ -26,7 +27,8 @@ const SingleFile = (props: FileProps) => {
 		dispatch(changeActiveFile(fileIndex));
 	};
 	const handleFileDelete = () => {
-		dispatch(deleteFile(fileIndex));
+		setConfirmModalOpen(true);
+		handleMenuClose();
 	};
 
 	//handling right click
@@ -36,10 +38,10 @@ const SingleFile = (props: FileProps) => {
 		setMenuOpen(true);
 	};
 	const handleMenuClose = () => setMenuOpen(false);
-	const handleModalOpen = () => setModalOpen(true);
+	const handleRenameModalOpen = () => setRenameModalOpen(true);
 
 	const handleFileRename = () => {
-		handleModalOpen();
+		handleRenameModalOpen();
 		handleMenuClose();
 	};
 
@@ -69,49 +71,20 @@ const SingleFile = (props: FileProps) => {
 				</Menu>
 			</Box>
 			<RenameModal
-				open={modalOpen}
+				open={renameModalOpen}
 				fileIndex={fileIndex}
 				currentName={file.name}
-				setOpen={() => setModalOpen(false)}
+				handleClose={() => setRenameModalOpen(false)}
+			/>
+			<ConfirmModal
+				confirmationText='Are you sure?'
+				title='File deletion'
+				open={confirmModalOpen}
+				handleClose={() => setConfirmModalOpen(false)}
+				action={() => dispatch(deleteFile(fileIndex))}
 			/>
 		</>
 	);
 };
 
-type ModalProps = {
-	currentName: string;
-	fileIndex: number;
-	open: boolean;
-	setOpen: (open: boolean) => void;
-};
-const RenameModal = (props: ModalProps) => {
-	const { currentName, open, fileIndex, setOpen } = props;
-	const handleClose = () => setOpen(false);
-
-	const style = {
-		position: "absolute",
-		top: "50%",
-		left: "50%",
-		transform: "translate(-50%, -50%)",
-		bgcolor: "background.paper",
-		boxShadow: 24,
-		p: 4,
-	};
-	return (
-		<Modal
-			open={open}
-			onClose={handleClose}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'>
-			<Box sx={style}>
-				<CreateOrRenameFileForm
-					action='rename'
-					fileIndex={fileIndex}
-					currentName={currentName}
-				/>
-			</Box>
-		</Modal>
-	);
-};
 export default SingleFile;
-
