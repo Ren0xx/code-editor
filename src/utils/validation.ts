@@ -1,6 +1,6 @@
 // utils/validation.ts
 
-import { filePattern } from "@/app/utils/constants";
+import { filePattern } from "@/utils/constants";
 import type { File } from "@/types/stateTypes";
 
 /**

@@ -1,29 +1,31 @@
 "use client";
-import { type File } from "@/types/stateTypes";
 import { useRef, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeActiveFile, deleteFile } from "@/lib/code/codeSlice";
 import { ConfirmModal, RenameModal } from "@/components/Modals/Modals";
 
+//
+import { useRouter } from "next/navigation";
+
 type FileProps = {
-	file: File;
+	fileName: string;
 	fileIndex: number;
 };
 const SingleFile = (props: FileProps) => {
-	const { file, fileIndex } = props;
+	const router = useRouter();
+	const { fileName, fileIndex } = props;
 	const { activeFile } = useAppSelector((state) => state.code);
 
 	const anchorRef = useRef<HTMLButtonElement | null>(null);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const [renameModalOpen, setRenameModalOpen] = useState<boolean>(false);
 	const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
-	const isActiveFile = file.name === activeFile.name;
+	const isActiveFile = fileName === activeFile.name;
 
 	const handleFileSelect = () => {
-		if (activeFile.name === file.name) return;
+		if (activeFile.name === fileName) return;
 		dispatch(changeActiveFile(fileIndex));
 	};
 	const handleFileDelete = () => {
@@ -38,10 +40,9 @@ const SingleFile = (props: FileProps) => {
 		setMenuOpen(true);
 	};
 	const handleMenuClose = () => setMenuOpen(false);
-	const handleRenameModalOpen = () => setRenameModalOpen(true);
 
-	const handleFileRename = () => {
-		handleRenameModalOpen();
+	const handleClick = () => {
+		router.push(`/rename/${fileIndex}?name=${fileName}`);
 		handleMenuClose();
 	};
 
@@ -54,7 +55,7 @@ const SingleFile = (props: FileProps) => {
 					onClick={handleFileSelect}
 					onContextMenu={handleRightClick}
 					ref={anchorRef}>
-					{file.name}
+					{fileName}
 				</Button>
 				<Menu
 					anchorEl={anchorRef.current}
@@ -62,7 +63,7 @@ const SingleFile = (props: FileProps) => {
 					onClose={handleMenuClose}
 					anchorOrigin={{ vertical: "top", horizontal: "center" }}
 					transformOrigin={{ vertical: "top", horizontal: "center" }}>
-					<MenuItem onClick={() => handleFileRename()}>
+					<MenuItem onClick={() => handleClick()}>
 						Rename
 					</MenuItem>
 					<MenuItem onClick={() => handleFileDelete()}>
@@ -70,12 +71,12 @@ const SingleFile = (props: FileProps) => {
 					</MenuItem>
 				</Menu>
 			</Box>
-			<RenameModal
+			{/* <RenameModal
 				open={renameModalOpen}
 				fileIndex={fileIndex}
-				currentName={file.name}
+				currentName={fileName}
 				handleClose={() => setRenameModalOpen(false)}
-			/>
+			/> */}
 			<ConfirmModal
 				confirmationText='Are you sure?'
 				title='File deletion'

@@ -1,6 +1,9 @@
+"use client";
+
 import { Box, Button, Modal, Typography } from "@mui/material";
 import CreateOrRenameFileForm from "@/components/CreateOrRenameFileForm";
 
+import { useRouter } from "next/navigation";
 const style = {
 	position: "absolute",
 	top: "50%",
@@ -14,16 +17,16 @@ const style = {
 type ModalProps = {
 	currentName: string;
 	fileIndex: number;
-	open: boolean;
-	handleClose: () => void;
 };
 
 export const RenameModal = (props: ModalProps) => {
-	const { currentName, open, fileIndex, handleClose } = props;
+	const { currentName, fileIndex } = props;
+	const router = useRouter();
 
+	const handleClose = () => router.back();
 	return (
 		<Modal
-			open={open}
+			open={true}
 			onClose={handleClose}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'>
@@ -80,4 +83,15 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
 		</div>
 	);
 };
+
+export function TestModal({ children }: { children: React.ReactNode }) {
+	const router = useRouter();
+	const handleOpenChange = () => router.back();
+
+	return (
+		<Modal open={true} onClose={handleOpenChange} sx={style}>
+			<div>{children}</div>
+		</Modal>
+	);
+}
 

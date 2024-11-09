@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 import { createFile, renameFile } from "@/lib/code/codeSlice";
 import { type File } from "@/types/stateTypes";
-import { defaultCode, defaultLanguage } from "@/app/utils/constants";
-import { getLanguageFromExtension } from "@/app/utils/helperFunctions";
+import { defaultCode, defaultLanguage } from "@/utils/constants";
+import { getLanguageFromExtension } from "@/utils/helperFunctions";
 
-import { isUniqueFileName, isValidFileName } from "@/app/utils/validation";
+import { isUniqueFileName, isValidFileName } from "@/utils/validation";
 
 import { TextField, Button, Box } from "@mui/material";
 

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeFontSizeBy, changeTabSize } from "@/lib/settings/settingsSlice";
-import { maximumFontSize, minimumFontSize } from "@/app/utils/constants";
+import { maximumFontSize, minimumFontSize } from "@/utils/constants";
 
 const useChangeEditorOptions = () => {
 	const { fontSize } = useAppSelector((state) => state.settings.options);
