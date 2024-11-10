@@ -1,19 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { useNavigateBackOnMount } from "@/hooks/useNavigateBackOnMount";
 
 export default function RenameFile() {
-	const router = useRouter();
-
-	const handleOnClick = useCallback(() => {
-		router.back();
-	}, [router]);
-
-	useEffect(() => {
-		handleOnClick();
-	}, [handleOnClick]);
-	
+	useNavigateBackOnMount();
 	return null;
 }
 

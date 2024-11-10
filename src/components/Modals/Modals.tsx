@@ -4,6 +4,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import CreateOrRenameFileForm from "@/components/CreateOrRenameFileForm";
 
 import { useRouter } from "next/navigation";
+
 const style = {
 	position: "absolute",
 	top: "50%",
@@ -43,56 +44,59 @@ export const RenameModal = (props: ModalProps) => {
 };
 
 type ConfirmModalProps = {
+	actionName: string;
 	confirmationText: string;
 	title: string;
-	open: boolean;
-	action: () => void;
-	handleClose: () => void;
+	handleAction: () => void;
 };
 export const ConfirmModal = (props: ConfirmModalProps) => {
-	const { confirmationText, title, open, action, handleClose } = props;
-
-	const handleAction = () => {
-		action();
+	const router = useRouter();
+	const handleClose = () => {
+		router.back();
+	};
+	const handleClick = () => {
+		props.handleAction();
+		handleClose();
 	};
 
 	return (
 		<div>
 			<Modal
-				open={open}
+				open={true}
 				onClose={handleClose}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'>
-				<Box sx={style}>
-					<Typography
-						id='modal-modal-title'
-						variant='h6'
-						component='h2'>
-						{title}
-					</Typography>
-					<Typography id='modal-modal-description' sx={{ mt: 2 }}>
-						{confirmationText}
-					</Typography>
-					<Button
-						onClick={handleAction}
-						variant='contained'
-						color='error'>
-						Delete
-					</Button>
-				</Box>
+				<ConfirmationForm {...props} handleClick={handleClick} />
 			</Modal>
 		</div>
 	);
 };
-
-export function TestModal({ children }: { children: React.ReactNode }) {
-	const router = useRouter();
-	const handleOpenChange = () => router.back();
-
+type ConfirmationFormProps = {
+	actionName: string;
+	confirmationText: string;
+	title: string;
+	handleClick: () => void;
+};
+const ConfirmationForm = (props: ConfirmationFormProps) => {
+	const { actionName, confirmationText, title, handleClick } = props;
 	return (
-		<Modal open={true} onClose={handleOpenChange} sx={style}>
-			<div>{children}</div>
-		</Modal>
+		<Box
+			sx={{
+				...style,
+				display: "flex",
+				flexDirection: "column",
+				gap: 2,
+			}}>
+			<Typography id='modal-modal-title' variant='h5' component='h2'>
+				{title}
+			</Typography>
+			<Typography id='modal-modal-description' sx={{ mt: 2 }}>
+				{confirmationText}
+			</Typography>
+			<Button onClick={handleClick} variant='contained' color='error'>
+				{actionName}
+			</Button>
+		</Box>
 	);
-}
+};
 
