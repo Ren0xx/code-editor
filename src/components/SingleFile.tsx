@@ -3,9 +3,8 @@ import { useRef, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeActiveFile, deleteFile } from "@/lib/code/codeSlice";
-import { ConfirmModal, RenameModal } from "@/components/Modals/Modals";
+import { ConfirmModal } from "@/components/Modals/Modals";
 
-//
 import { useRouter } from "next/navigation";
 
 type FileProps = {
@@ -63,20 +62,13 @@ const SingleFile = (props: FileProps) => {
 					onClose={handleMenuClose}
 					anchorOrigin={{ vertical: "top", horizontal: "center" }}
 					transformOrigin={{ vertical: "top", horizontal: "center" }}>
-					<MenuItem onClick={() => handleClick()}>
-						Rename
-					</MenuItem>
+					<MenuItem onClick={() => handleClick()}>Rename</MenuItem>
 					<MenuItem onClick={() => handleFileDelete()}>
 						Delete
 					</MenuItem>
 				</Menu>
 			</Box>
-			{/* <RenameModal
-				open={renameModalOpen}
-				fileIndex={fileIndex}
-				currentName={fileName}
-				handleClose={() => setRenameModalOpen(false)}
-			/> */}
+
 			<ConfirmModal
 				confirmationText='Are you sure?'
 				title='File deletion'

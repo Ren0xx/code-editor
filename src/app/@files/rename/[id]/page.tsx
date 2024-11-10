@@ -1,21 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Box, Button } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useCallback, useEffect } from "react";
 
 export default function RenameFile() {
 	const router = useRouter();
 
-	const handleOnClick = () => {
+	const handleOnClick = useCallback(() => {
 		router.back();
-	};
-	return (
-		<Box sx={{ display: "flex", flexDirection: "column" }}>
-			<Button startIcon={<ArrowBackIcon />} onClick={handleOnClick}>
-				Go back
-			</Button>
-		</Box>
-	);
+	}, [router]);
+
+	useEffect(() => {
+		handleOnClick();
+	}, [handleOnClick]);
+	
+	return null;
 }
 

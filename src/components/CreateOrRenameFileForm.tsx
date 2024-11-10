@@ -16,9 +16,10 @@ type FormProps = {
 	action: "create" | "rename";
 	fileIndex?: number;
 	currentName?: string;
+	handleClose?: () => void;
 };
 const CreateOrRenameFileForm = (props: FormProps) => {
-	const { action, fileIndex, currentName } = props;
+	const { action, fileIndex, currentName, handleClose } = props;
 
 	const [fileName, setFileName] = useState<string>(currentName ?? "");
 	const [error, setError] = useState<string | null>(null);
@@ -59,7 +60,7 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 				index: fileIndex,
 				language: language ?? defaultLanguage,
 			};
-
+			if (handleClose) handleClose();
 			dispatch(renameFile(obj));
 		}
 		setFileName("");

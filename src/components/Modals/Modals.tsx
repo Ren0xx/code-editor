@@ -35,6 +35,7 @@ export const RenameModal = (props: ModalProps) => {
 					action='rename'
 					fileIndex={fileIndex}
 					currentName={currentName}
+					handleClose={handleClose}
 				/>
 			</Box>
 		</Modal>
