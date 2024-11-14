@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
-export function useNavigateBackOnMount() {
+const useNavigateBackOnMount = () => {
 	const router = useRouter();
 
 	const navigateBack = useCallback(() => {
@@ -13,5 +13,6 @@ export function useNavigateBackOnMount() {
 	useEffect(() => {
 		navigateBack();
 	}, [navigateBack]);
-}
+};
 
+export default useNavigateBackOnMount;

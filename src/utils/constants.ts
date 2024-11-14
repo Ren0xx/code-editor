@@ -22,6 +22,9 @@ const defaultOptions: Options = {
 	fontSize: 16,
 	tabSize: 4,
 };
+
+export const MAX_CONTENT_LENGTH = 50000;
+
 export {
 	defaultFile,
 	defaultOptions,
