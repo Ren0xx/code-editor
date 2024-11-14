@@ -9,13 +9,17 @@ import useAddFileFromLink from "@/hooks/useAddFileFromLink";
 
 export default function Files() {
 	const codeState = useAppSelector((state) => state.code);
-	const { code, name: currentFileName } = codeState.activeFile;
+	const { code, name: currentFileName, language } = codeState.activeFile;
 
 	useAddFileFromLink();
 
 	return (
 		<div>
-			<ActionsIcons code={code} fileName={currentFileName} />
+			<ActionsIcons
+				code={code}
+				fileName={currentFileName}
+				language={language}
+			/>
 			<FileList files={codeState.files} />
 			<CreateOrRenameFileForm action='create' />
 		</div>
