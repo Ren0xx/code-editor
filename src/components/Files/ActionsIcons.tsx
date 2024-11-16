@@ -3,14 +3,7 @@
 import { saveCodeToFile } from "@/utils/helperFunctions";
 import useShareCode from "@/hooks/useShareCode";
 
-import {
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	IconButton,
-	Snackbar,
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
@@ -18,7 +11,7 @@ import { type RouterOutputs } from "@/trpc/react";
 type Result = RouterOutputs["file"]["shareFile"];
 
 import { type Language } from "@/types/stateTypes";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type ActionsIconsProps = {
 	code: string;
@@ -27,9 +20,8 @@ type ActionsIconsProps = {
 };
 
 const ActionsIcons = (props: ActionsIconsProps) => {
+	const router = useRouter();
 	const { code, fileName, language } = props;
-	const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
-	const [result, setResult] = useState<Result>();
 
 	const { shareFile } = useShareCode();
 	const saveCode = () => saveCodeToFile(code, fileName);
@@ -38,9 +30,11 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 		void navigator.clipboard.writeText(code);
 	};
 	const share = async () => {
-		const result = await shareFile(fileName, code, language);
-		setResult(result);
-		if (result.success) setDialogOpen(true);
+		const result: Result = await shareFile(fileName, code, language);
+		const url = `/shareLink?shareLink=${
+			result.shareLink
+		}?error=${!result.success}`;
+		router.push(url);
 	};
 
 	return (
@@ -60,21 +54,6 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			<IconButton aria-label='Share code' onClick={share}>
 				<ShareIcon />
 			</IconButton>
-			<Dialog
-				open={isDialogOpen}
-				onClose={() => setDialogOpen(false)}
-				aria-labelledby='alert-dialog-title'
-				aria-describedby='alert-dialog-description'>
-				<DialogTitle id='alert-dialog-title'>
-					{"Use Google's location service?"}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id='alert-dialog-description'>
-						File added successfully <br />
-						Your Share link `{result?.shareLink ?? "Error"}`
-					</DialogContentText>
-				</DialogContent>
-			</Dialog>
 		</div>
 	);
 };

@@ -1,8 +1,6 @@
-"use client";
-
-import { useNavigateBackOnMount } from "@/hooks/useNavigateBackOnMount"
+import { redirect } from "next/navigation";
 
 export default function DeleteFile() {
-	useNavigateBackOnMount();
-	return null;
+	redirect("/");
 }
+
