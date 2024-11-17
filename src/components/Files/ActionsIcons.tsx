@@ -33,7 +33,7 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 		const result: Result = await shareFile(fileName, code, language);
 		const url = `/shareLink?shareLink=${
 			result.shareLink
-		}?error=${!result.success}`;
+		}&error=${+!result.success}`;
 		router.push(url);
 	};
 

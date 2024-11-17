@@ -2,24 +2,31 @@
 
 import {
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	IconButton,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
+import { useRouter } from "next/navigation";
 type DialogProps = {
-	content: string;
+	content: string | JSX.Element;
 	title: string;
 	error?: boolean;
+	shareLinkUrl?: string;
 };
 const ShareLinkDialog = (props: DialogProps) => {
+	const { content, title, error, shareLinkUrl } = props;
 	const router = useRouter();
 
+	const copyToClipboard = () => {
+		void navigator.clipboard.writeText(shareLinkUrl ?? "");
+	};
 	const handleClose = () => {
 		router.back();
 	};
-	const { content, title, error } = props;
 	return (
 		<Dialog
 			open={true}
@@ -36,6 +43,11 @@ const ShareLinkDialog = (props: DialogProps) => {
 					{content}
 				</DialogContentText>
 			</DialogContent>
+			<DialogActions>
+				<IconButton onClick={copyToClipboard}>
+					<ContentCopyIcon />
+				</IconButton>
+			</DialogActions>
 		</Dialog>
 	);
 };
