@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { deleteFile } from "@/lib/code/codeSlice";
 
 import Files from "@/app/@files/page";
-import { ConfirmModal } from "@/components/Modals/Modals";
+import { ConfirmModal } from "@/components/Info/Modals/Modals";
 
 export default function RenameFile() {
 	const { id } = useParams<{ id: string }>();

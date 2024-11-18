@@ -11,7 +11,7 @@ const defaultFile: File = {
 	name: defaultFileName,
 };
 
-const filePattern = /^[\w-]{1,20}\.[a-zA-Z]{2,5}$/;
+const filePattern = /^[\w-]{1,20}\.[a-zA-Z]{1,5}$/;
 
 //editor options
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Files from "@/app/@files/page";
-import { ShareLinkDialog } from "@/components/Dialogs/Dialogs";
+import { ShareLinkDialog } from "@/components/Info/Dialogs/Dialogs";
 import useGetSearchParams from "@/hooks/useGetSearchParams";
 import useCurrentUrl from "@/hooks/useBaseUrl";
 

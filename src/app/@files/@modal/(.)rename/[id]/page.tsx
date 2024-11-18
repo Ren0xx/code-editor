@@ -1,6 +1,6 @@
 "use client";
 
-import { RenameModal } from "@/components/Modals/Modals";
+import { RenameModal } from "@/components/Info/Modals/Modals";
 import { useSearchParams, useParams } from "next/navigation";
 import Files from "@/app/@files/page";
 

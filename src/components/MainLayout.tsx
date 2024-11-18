@@ -13,8 +13,8 @@ export default function MainLayout({
 	return (
 		<main>
 			<Grid container>
-				<Grid size={3}>{files}</Grid>
-				<Grid size={9}>{codeEditor}</Grid>
+				<Grid size={2}>{files}</Grid>
+				<Grid size={10}>{codeEditor}</Grid>
 			</Grid>
 			{children}
 		</main>
