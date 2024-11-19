@@ -30,13 +30,13 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 	const { shareFile } = useShareCode();
 	const saveCode = () => {
 		saveCodeToFile(code, fileName);
-		setMessage("Code saved to file")
+		setMessage("Code saved to file");
 		setOpen(true);
 	};
 
 	const copyToClipboard = () => {
 		void navigator.clipboard.writeText(code);
-		setMessage("Code copied to clipboard")
+		setMessage("Code copied to clipboard");
 		setOpen(true);
 	};
 	const share = async () => {
@@ -47,7 +47,7 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 		router.push(url);
 	};
 
-	const handleSnackbarClose = () => setOpen(false)
+	const handleSnackbarClose = () => setOpen(false);
 	return (
 		<div>
 			<IconButton
@@ -65,11 +65,11 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			<IconButton aria-label='Share code' onClick={share}>
 				<ShareIcon />
 			</IconButton>
-			 <Snackbar
+			<Snackbar
 				open={snackbarOpen}
 				message={snackbarMessage}
 				handleClose={handleSnackbarClose}
-			/> 
+			/>
 		</div>
 	);
 };
