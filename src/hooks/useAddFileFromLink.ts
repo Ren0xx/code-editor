@@ -10,17 +10,21 @@ import { useCallback, useEffect } from "react";
 import useIsRootRoute from "@/hooks/useIsRootRoute";
 
 const useAddFileFromLink = () => {
-	const fileId = useGetSearchParams("shareLink") ?? "";
+	const fileId = useGetSearchParams("shareLink");
 	const dispatch = useAppDispatch();
 	const filesNames = useAppSelector((state) => state.code.files).map(
 		(file) => file.name
 	);
-	const isRootRoute = useIsRootRoute();
 
-	const { data: fileData } = api.file.getFileByLinkId.useQuery(fileId);
+	const isRootRoute = useIsRootRoute();
+	const shouldRun = !!fileId && isRootRoute;
+
+	const { data: fileData } = api.file.getFileByLinkId.useQuery(fileId ?? "", {
+		enabled: shouldRun,
+	});
 
 	const addFileFromLink = useCallback(() => {
-		if (!fileData || fileData === "Wrong link id format" || !isRootRoute)
+		if (!fileData || fileData === "Wrong link id format" || !shouldRun)
 			return;
 
 		const firstPartOfUUID = fileId.split("-")[0]!;
@@ -40,11 +44,11 @@ const useAddFileFromLink = () => {
 		dispatch(createFile(file));
 
 		window.history.replaceState(null, "", "/");
-	}, [dispatch, fileData, fileId, filesNames, isRootRoute]);
+	}, [dispatch, fileData, fileId, filesNames, shouldRun]);
 
 	useEffect(() => {
-		addFileFromLink();
-	}, [addFileFromLink]);
+		if (shouldRun) addFileFromLink();
+	}, [addFileFromLink, shouldRun]);
 };
 
 export default useAddFileFromLink;
