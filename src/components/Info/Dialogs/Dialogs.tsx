@@ -67,5 +67,36 @@ const ShareLinkDialog = (props: DialogProps) => {
 		</>
 	);
 };
-export { ShareLinkDialog };
+type GetFileFromLinkInfoDialogProps = {
+	content: string;
+	title: string;
+	error?: boolean;
+};
+const GetFileFromLinkInfoDialog = (props: GetFileFromLinkInfoDialogProps) => {
+	const router = useRouter();
+	const { content, title, error } = props;
+
+	const handleClose = () => {
+		router.back();
+	};
+	return (
+		<Dialog
+			open={true}
+			onClose={handleClose}
+			aria-labelledby='alert-dialog-title'
+			aria-describedby='alert-dialog-description'>
+			<DialogTitle
+				id='alert-dialog-title'
+				color={error ? "error" : "success"}>
+				{title}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText id='alert-dialog-description'>
+					{content}
+				</DialogContentText>
+			</DialogContent>
+		</Dialog>
+	);
+};
+export { ShareLinkDialog, GetFileFromLinkInfoDialog };
 
