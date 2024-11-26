@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
-export default function GetFileFromLink() {
+export default function FileAddInfo() {
 	redirect("/");
 }
-
 

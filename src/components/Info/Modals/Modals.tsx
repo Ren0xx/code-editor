@@ -1,9 +1,12 @@
 "use client";
 
-import { Box, Button, Modal, Typography } from "@mui/material";
-import CreateOrRenameFileForm from "@/components/CreateOrRenameFileForm";
-
 import { useRouter } from "next/navigation";
+
+import { Box, Modal } from "@mui/material";
+
+import AddFileFromLinkForm from "@/components/Forms/AddFileFromLinkForm";
+import CreateOrRenameFileForm from "@/components/Forms/CreateOrRenameFileForm";
+import ConfirmationForm from "@/components/Forms/ConfirmationForm";
 
 const style = {
 	position: "absolute",
@@ -15,12 +18,12 @@ const style = {
 	p: 4,
 };
 
-type ModalProps = {
+type RenameModalProps = {
 	currentName: string;
 	fileIndex: number;
 };
 
-export const RenameModal = (props: ModalProps) => {
+export const RenameModal = (props: RenameModalProps) => {
 	const { currentName, fileIndex } = props;
 	const router = useRouter();
 
@@ -51,6 +54,7 @@ type ConfirmModalProps = {
 };
 export const ConfirmModal = (props: ConfirmModalProps) => {
 	const router = useRouter();
+
 	const handleClose = () => {
 		router.back();
 	};
@@ -66,37 +70,26 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
 				onClose={handleClose}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'>
-				<ConfirmationForm {...props} handleClick={handleClick} />
+				<ConfirmationForm
+					{...props}
+					handleClick={handleClick}
+					style={style}
+				/>
 			</Modal>
 		</div>
 	);
 };
-type ConfirmationFormProps = {
-	actionName: string;
-	confirmationText: string;
-	title: string;
-	handleClick: () => void;
-};
-const ConfirmationForm = (props: ConfirmationFormProps) => {
-	const { actionName, confirmationText, title, handleClick } = props;
+
+export const FileAddModal = () => {
+	const router = useRouter();
+	const handleClose = () => router.back();
+
 	return (
-		<Box
-			sx={{
-				...style,
-				display: "flex",
-				flexDirection: "column",
-				gap: 2,
-			}}>
-			<Typography id='modal-modal-title' variant='h5' component='h2'>
-				{title}
-			</Typography>
-			<Typography id='modal-modal-description' sx={{ mt: 2 }}>
-				{confirmationText}
-			</Typography>
-			<Button onClick={handleClick} variant='contained' color='error'>
-				{actionName}
-			</Button>
-		</Box>
+		<Modal open={true} onClose={handleClose}>
+			<Box sx={style}>
+				<AddFileFromLinkForm />
+			</Box>
+		</Modal>
 	);
 };
 

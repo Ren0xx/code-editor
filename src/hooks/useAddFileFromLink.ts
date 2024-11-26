@@ -1,15 +1,13 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import useGetSearchParams from "@/hooks/useGetSearchParams";
 import { createFile } from "@/lib/code/codeSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { type Language, type File } from "@/types/stateTypes";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { isValidUUID } from "@/utils/helperFunctions";
 
-const useAddFileFromLink = () => {
-	const fileId = useGetSearchParams("shareLink");
+const useAddFileFromLink = (fileId:string) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 
@@ -17,27 +15,20 @@ const useAddFileFromLink = () => {
 		state.code.files.map((file) => file.name)
 	);
 
-	const { data: fileData } = api.file.getFileByLinkId.useQuery(fileId ?? "", {
-		enabled: !!fileId,
+	const { data: fileData } = api.file.getFileByLinkId.useQuery(fileId, {
+		enabled: isValidUUID(fileId),
 	});
-
-	const [isFileAdded, setIsFileAdded] = useState(false);
-
-	useEffect(() => {
-		if (
-			!fileData ||
-			fileData === "Wrong link id format" ||
-			!fileId ||
-			isFileAdded
-		) {
-			return;
+	const addFile = () => {
+		if (!fileData || fileData === "Wrong link id format") {
+			return "Wrong link format";
 		}
 
 		const firstPartOfUUID = fileId.split("-")[0]!;
 		const fileName = `${firstPartOfUUID}.${fileData.name.split(".")[1]}`;
 
+		//file already exits in local state
 		if (filesNames.includes(fileName)) {
-			router.replace(`/getFileFromLink?fileName=${fileName}&error=1`);
+			router.push(`/fileAddInfo?fileName=${fileName}&error=1`);
 			return;
 		}
 		const file: File = {
@@ -48,10 +39,9 @@ const useAddFileFromLink = () => {
 
 		dispatch(createFile(file));
 
-		setIsFileAdded(true);
-
-		router.replace(`/getFileFromLink?fileName=${fileName}`);
-	}, [fileData, fileId, filesNames, isFileAdded, dispatch, router]);
+		router.push(`/fileAddInfo?fileName=${fileName}`);
+	};
+	return { addFile };
 };
 
 export default useAddFileFromLink;

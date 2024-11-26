@@ -2,9 +2,9 @@
 
 import Files from "@/app/@files/page";
 import useGetSearchParams from "@/hooks/useGetSearchParams";
-import { GetFileFromLinkInfoDialog } from "@/components/Info/Dialogs/Dialogs";
+import { AddFileInfoDialog } from "@/components/Info/Dialogs/Dialogs";
 
-export default function GetFileFromLink() {
+export default function AddFileInfo() {
 	const fileName = useGetSearchParams("fileName");
 	const error = useGetSearchParams("error") === "1" ? true : false;
 
@@ -18,11 +18,7 @@ export default function GetFileFromLink() {
 	return (
 		<>
 			<Files />
-			<GetFileFromLinkInfoDialog
-				content={content}
-				title={title}
-				error={error}
-			/>
+			<AddFileInfoDialog content={content} title={title} error={error} />
 		</>
 	);
 }

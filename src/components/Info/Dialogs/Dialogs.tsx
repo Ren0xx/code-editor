@@ -17,18 +17,18 @@ type DialogProps = {
 	content: string | JSX.Element;
 	title: string;
 	error?: boolean;
-	shareLinkUrl?: string;
+	shareLink?: string;
 };
 
 const ShareLinkDialog = (props: DialogProps) => {
 	const router = useRouter();
-	const { content, title, error, shareLinkUrl } = props;
+	const { content, title, error, shareLink } = props;
 
 	const [snackbarOpen, setOpen] = useState<boolean>(false);
 	const handleSnackbarClose = () => setOpen(false);
 
 	const copyToClipboard = () => {
-		void navigator.clipboard.writeText(shareLinkUrl ?? "");
+		void navigator.clipboard.writeText(shareLink ?? "");
 		setOpen(true);
 	};
 	const handleClose = () => {
@@ -67,12 +67,12 @@ const ShareLinkDialog = (props: DialogProps) => {
 		</>
 	);
 };
-type GetFileFromLinkInfoDialogProps = {
+type AddFileInfoProps = {
 	content: string;
 	title: string;
 	error?: boolean;
 };
-const GetFileFromLinkInfoDialog = (props: GetFileFromLinkInfoDialogProps) => {
+const AddFileInfoDialog = (props: AddFileInfoProps) => {
 	const router = useRouter();
 	const { content, title, error } = props;
 
@@ -98,5 +98,5 @@ const GetFileFromLinkInfoDialog = (props: GetFileFromLinkInfoDialogProps) => {
 		</Dialog>
 	);
 };
-export { ShareLinkDialog, GetFileFromLinkInfoDialog };
+export { ShareLinkDialog, AddFileInfoDialog };
 

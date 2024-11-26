@@ -8,6 +8,11 @@ import Snackbar from "@/components/Info/Snackbar";
 import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
+
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import KeyIcon from "@mui/icons-material/Key";
+
 import { type RouterOutputs } from "@/trpc/react";
 type Result = RouterOutputs["file"]["shareFile"];
 
@@ -24,20 +29,20 @@ type ActionsIconsProps = {
 const ActionsIcons = (props: ActionsIconsProps) => {
 	const router = useRouter();
 	const { code, fileName, language } = props;
-	const [snackbarOpen, setOpen] = useState<boolean>(false);
-	const [snackbarMessage, setMessage] = useState<string>("");
+	const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+	const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
 	const { shareFile } = useShareCode();
 	const saveCode = () => {
 		saveCodeToFile(code, fileName);
-		setMessage("Code saved to file");
-		setOpen(true);
+		setSnackbarMessage("Code saved to file");
+		setSnackbarOpen(true);
 	};
 
 	const copyToClipboard = () => {
 		void navigator.clipboard.writeText(code);
-		setMessage("Code copied to clipboard");
-		setOpen(true);
+		setSnackbarMessage("Code copied to clipboard");
+		setSnackbarOpen(true);
 	};
 	const share = async () => {
 		const result: Result = await shareFile(fileName, code, language);
@@ -46,8 +51,10 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 		}&error=${+!result.success}`;
 		router.push(url);
 	};
-
-	const handleSnackbarClose = () => setOpen(false);
+	const openAddFileModal = () =>{
+		router.push('/addFileFromLink')
+	}
+	const handleSnackbarClose = () => setSnackbarOpen(false);
 	return (
 		<div>
 			<IconButton
@@ -64,6 +71,9 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			</IconButton>
 			<IconButton aria-label='Share code' onClick={share}>
 				<ShareIcon />
+			</IconButton>
+			<IconButton onClick={openAddFileModal}>
+				<ImportExportIcon />
 			</IconButton>
 			<Snackbar
 				open={snackbarOpen}
