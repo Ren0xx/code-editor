@@ -1,36 +1,33 @@
 "use client";
 
-import { api } from "@/trpc/react";
 import { createFile } from "@/lib/code/codeSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { type Language, type File } from "@/types/stateTypes";
-import { useRouter } from "next/navigation";
-import { isValidUUID } from "@/utils/helperFunctions";
+import { type RouterOutputs } from "@/trpc/react";
 
-const useAddFileFromLink = (fileId:string) => {
-	const router = useRouter();
+type FileData = RouterOutputs["file"]["getFileByLinkId"];
+
+const useAddFileFromLink = (shareLink: string) => {
 	const dispatch = useAppDispatch();
 
 	const filesNames = useAppSelector((state) =>
 		state.code.files.map((file) => file.name)
 	);
 
-	const { data: fileData } = api.file.getFileByLinkId.useQuery(fileId, {
-		enabled: isValidUUID(fileId),
-	});
-	const addFile = () => {
+	const handleAddFile = async (fileData: FileData) => {
 		if (!fileData || fileData === "Wrong link id format") {
 			return "Wrong link format";
 		}
-
-		const firstPartOfUUID = fileId.split("-")[0]!;
+		if (fileData === "File not found") {
+			return "File not found";
+		}
+		const firstPartOfUUID = shareLink.split("-")[0]!;
 		const fileName = `${firstPartOfUUID}.${fileData.name.split(".")[1]}`;
 
-		//file already exits in local state
 		if (filesNames.includes(fileName)) {
-			router.push(`/fileAddInfo?fileName=${fileName}&error=1`);
-			return;
+			return "File with that name already exists";
 		}
+
 		const file: File = {
 			name: fileName,
 			code: fileData.content,
@@ -38,10 +35,9 @@ const useAddFileFromLink = (fileId:string) => {
 		};
 
 		dispatch(createFile(file));
-
-		router.push(`/fileAddInfo?fileName=${fileName}`);
+		return "File added successfully";
 	};
-	return { addFile };
+	return { handleAddFile };
 };
 
 export default useAddFileFromLink;

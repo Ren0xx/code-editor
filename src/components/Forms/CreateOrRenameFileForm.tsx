@@ -8,7 +8,7 @@ import { type File } from "@/types/stateTypes";
 import { defaultCode, defaultLanguage } from "@/utils/constants";
 import { getLanguageFromExtension } from "@/utils/helperFunctions";
 
-import { isUniqueFileName, isValidFileName } from "@/utils/validation";
+import { isUniqueFileName, isValidFileName } from "@/utils/helperFunctions";
 
 import { TextField, Button, Box } from "@mui/material";
 

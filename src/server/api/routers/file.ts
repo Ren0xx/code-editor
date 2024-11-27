@@ -4,7 +4,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { files } from "@/server/db/schema";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { eq } from "drizzle-orm";
-import { isValidUUID } from "@/utils/helperFunctions";
+import { isValidUUID4 } from "@/utils/helperFunctions";
 
 export const fileRouter = createTRPCRouter({
 	shareFile: publicProcedure
@@ -33,7 +33,7 @@ export const fileRouter = createTRPCRouter({
 	getFileByLinkId: publicProcedure
 		.input(z.string())
 		.query(async ({ ctx, input }) => {
-			if (!isValidUUID(input)) {
+			if (!isValidUUID4(input)) {
 				return "Wrong link id format";
 			}
 			const file = await ctx.db.query.files.findFirst({
@@ -44,7 +44,7 @@ export const fileRouter = createTRPCRouter({
 					language: true,
 				},
 			});
-			return file;
+			return file ?? "File not found";
 		}),
 });
 

@@ -6,19 +6,14 @@ import { AddFileInfoDialog } from "@/components/Info/Dialogs/Dialogs";
 
 export default function AddFileInfo() {
 	const fileName = useGetSearchParams("fileName");
-	const error = useGetSearchParams("error") === "1" ? true : false;
 
-	const title = !error
-		? "File imported successfully"
-		: "Couldn't import file";
+	const title = "File imported successfully";
 
-	const content = !error
-		? `Your file name: ${fileName ?? ""} `
-		: "File with that name already exits. Try renaming existing file";
+	const content = `Your file name: ${fileName ?? ""} `;
 	return (
 		<>
 			<Files />
-			<AddFileInfoDialog content={content} title={title} error={error} />
+			<AddFileInfoDialog content={content} title={title} />
 		</>
 	);
 }

@@ -1,5 +1,7 @@
-import { type Language } from "@/types/stateTypes";
+import { type Language, type File } from "@/types/stateTypes";
+import { filePattern } from "@/utils/constants";
 import { saveAs } from "file-saver";
+import isUUID from "validator/es/lib/isUUID";
 
 const extensionMap: { [key in Language]: string } = {
 	javascript: "js",
@@ -50,12 +52,36 @@ const saveCodeToFile = (code: string, name: string) => {
 	saveAs(blob, name);
 };
 
-type UUID = string & { readonly __brand: unique symbol };
-const isValidUUID = (value: string): value is UUID => {
-	const uuidV4Regex =
-		/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-	return uuidV4Regex.test(value);
+const isValidUUID4 = (value: string): boolean => {
+	const version = 4;
+	return isUUID(value, version);
 };
 
-export { saveCodeToFile, getLanguageFromExtension, isValidUUID };
+/**
+ * Checks if a filename meets naming requirements.
+ * @param {string} fileName - The name of the file to validate.
+ * @returns {boolean} - Returns true if the name is valid, otherwise false.
+ */
+const isValidFileName = (fileName: string): boolean => {
+	return filePattern.test(fileName);
+};
+
+/**
+ * Checks if a filename is unique within a given list of files.
+ * @param {string} fileName - The name of the file to check for uniqueness.
+ * @param {File[]} files - The current list of files to compare against.
+ * @returns {boolean} - Returns true if the name is unique, otherwise false.
+ */
+
+const isUniqueFileName = (fileName: string, files: File[]): boolean => {
+	return !files.some((file) => file.name === fileName);
+};
+
+export {
+	saveCodeToFile,
+	getLanguageFromExtension,
+	isValidUUID4,
+	isValidFileName,
+	isUniqueFileName,
+};
 
