@@ -22,6 +22,7 @@
     "jsx": "preserve",
     "plugins": [{ "name": "next" }],
     "incremental": true,
+    "types": ["vitest/globals"],
 
     /* Path Aliases */
     "baseUrl": ".",
@@ -30,6 +31,7 @@
     }
   },
   "include": [
+    ".",
     ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",
@@ -37,6 +39,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts"
-  ],
+, "vitest.config.mjs"  ],
   "exclude": ["node_modules"]
 }
