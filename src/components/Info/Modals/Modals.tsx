@@ -27,11 +27,11 @@ export const RenameModal = (props: RenameModalProps) => {
 	const { currentName, fileIndex } = props;
 	const router = useRouter();
 
-	const handleClose = () => router.back();
+	const handleModalClose = () => router.back();
 	return (
 		<Modal
 			open={true}
-			onClose={handleClose}
+			onClose={handleModalClose}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'>
 			<Box sx={style}>
@@ -39,7 +39,7 @@ export const RenameModal = (props: RenameModalProps) => {
 					action='rename'
 					fileIndex={fileIndex}
 					currentName={currentName}
-					handleClose={handleClose}
+					handleModalClose={handleModalClose}
 				/>
 			</Box>
 		</Modal>

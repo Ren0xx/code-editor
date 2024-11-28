@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
 import { createFile, renameFile } from "@/lib/code/codeSlice";
-import { type File } from "@/types/stateTypes";
+
 import { defaultCode, defaultLanguage } from "@/utils/constants";
 import { getLanguageFromExtension } from "@/utils/helperFunctions";
 
-import { isUniqueFileName, isValidFileName } from "@/utils/helperFunctions";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createOrRenameSchema } from "@/schemas/validation/file/createOrRename";
+import { type z } from "zod";
+
+import { type File } from "@/types/stateTypes";
 
 import { TextField, Button, Box } from "@mui/material";
 
@@ -16,77 +19,67 @@ type FormProps = {
 	action: "create" | "rename";
 	fileIndex?: number;
 	currentName?: string;
-	handleClose?: () => void;
+	handleModalClose?: () => void;
 };
 const CreateOrRenameFileForm = (props: FormProps) => {
-	const { action, fileIndex, currentName, handleClose } = props;
+	const { action, fileIndex, currentName = "", handleModalClose } = props;
 
-	const [fileName, setFileName] = useState<string>(currentName ?? "");
-	const [error, setError] = useState<string | null>(null);
-
-	const files = useAppSelector((state) => state.code.files);
 	const dispatch = useAppDispatch();
 
-	const handleAction = () => {
-		if (!isValidFileName(fileName)) {
-			setError("Invalid file name.");
-			return;
-		}
+	const files = useAppSelector((state) => state.code.files);
+	const filesNames = files.map((file) => file.name);
 
-		if (!isUniqueFileName(fileName, files)) {
-			setError("A file with this name already exists.");
-			return;
-		}
+	const formSchema = createOrRenameSchema(filesNames);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: { fileName: currentName },
+	});
+
+	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		const fileName = values.fileName;
 
 		const fileExtension = fileName.split(".")[1] ?? "js";
 		const language = getLanguageFromExtension(fileExtension);
+		const name = language ? fileName : `${fileName.split(".")[0]}.js`;
 
-		//creating file
 		if (action === "create") {
 			const newFile: File = {
-				name: language ? fileName : `${fileName.split(".")[0]}.js`,
+				name: name,
 				code: defaultCode,
 				language: language ?? defaultLanguage,
 			};
-
 			dispatch(createFile(newFile));
 		}
-		//renaming file
 		if (action === "rename") {
 			if (fileIndex === undefined) return;
 
 			const obj = {
-				newName: language ? fileName : `${fileName.split(".")[0]}.js`,
+				newName: name,
 				index: fileIndex,
 				language: language ?? defaultLanguage,
 			};
-			if (handleClose) handleClose();
 			dispatch(renameFile(obj));
 		}
-		setFileName("");
-		setError(null);
-	};
-
-	const handleFileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newText = e.target.value;
-		setFileName(newText);
-		setError(null);
+		if (handleModalClose) handleModalClose();
 	};
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column" }}>
+		<Box
+			component='form'
+			onSubmit={handleSubmit(onSubmit)}
+			sx={{ display: "flex", flexDirection: "column" }}>
 			<TextField
-				value={fileName}
-				onChange={handleFileNameChange}
+				{...register("fileName")}
 				label='File Name'
 				variant='filled'
-				error={!!error}
-				helperText={error}
+				error={!!errors.fileName}
+				helperText={errors.fileName?.message}
 			/>
-			<Button
-				onClick={handleAction}
-				variant='contained'
-				disabled={!!error || !fileName.trim()}>
+			<Button type='submit' variant='contained'>
 				{action === "create" ? "Create File" : "Rename File"}
 			</Button>
 		</Box>
