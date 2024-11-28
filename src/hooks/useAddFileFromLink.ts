@@ -7,7 +7,7 @@ import { type RouterOutputs } from "@/trpc/react";
 
 type FileData = RouterOutputs["file"]["getFileByLinkId"];
 
-const useAddFileFromLink = (shareLink: string) => {
+const useAddFileFromLink = () => {
 	const dispatch = useAppDispatch();
 
 	const filesNames = useAppSelector((state) =>
@@ -21,15 +21,12 @@ const useAddFileFromLink = (shareLink: string) => {
 		if (fileData === "File not found") {
 			return "File not found";
 		}
-		const firstPartOfUUID = shareLink.split("-")[0]!;
-		const fileName = `${firstPartOfUUID}.${fileData.name.split(".")[1]}`;
-
-		if (filesNames.includes(fileName)) {
+		if (filesNames.includes(fileData.name)) {
 			return "File with that name already exists";
 		}
 
 		const file: File = {
-			name: fileName,
+			name: fileData.name,
 			code: fileData.content,
 			language: (fileData.language as Language) ?? "javascript",
 		};

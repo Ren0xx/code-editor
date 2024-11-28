@@ -26,7 +26,7 @@ const AddFileFromLinkForm = () => {
 		defaultValue: "",
 	});
 
-	const { handleAddFile } = useAddFileFromLink(shareLink);
+	const { handleAddFile } = useAddFileFromLink();
 	const { fetchFileData } = useGetFileDataFromLink(shareLink);
 
 	const { isSubmitting } = useFormState({ control });
