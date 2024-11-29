@@ -1,4 +1,4 @@
-import SingleFile from "@/components/SingleFile";
+import SingleFile from "@/components/Files/SingleFile";
 import { Box } from "@mui/material";
 import { type File } from "@/types/stateTypes";
 
