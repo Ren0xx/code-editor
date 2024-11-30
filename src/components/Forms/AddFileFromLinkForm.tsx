@@ -33,7 +33,7 @@ const AddFileFromLinkForm = () => {
 
 	const onSubmit = async () => {
 		try {
-			const fileData = (await fetchFileData()).data;
+			const fileData = (await fetchFileData())?.data;
 
 			if (!fileData) {
 				setError("shareLink", {
@@ -71,10 +71,7 @@ const AddFileFromLinkForm = () => {
 						{...field}
 						label='Share Link'
 						error={!!form.formState.errors.shareLink}
-						helperText={
-							form.formState.errors.shareLink?.message ??
-							"Enter a valid link ID"
-						}
+						helperText={form.formState.errors.shareLink?.message}
 						onChange={(e) => {
 							clearErrors("shareLink");
 							field.onChange(e);
