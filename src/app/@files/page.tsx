@@ -4,7 +4,7 @@ import FileList from "@/components/Files/FileList";
 import { useAppSelector } from "@/lib/hooks";
 import ActionsIcons from "@/components/Files/ActionsIcons";
 import CreateOrRenameFileForm from "@/components/Forms/CreateOrRenameFileForm";
-
+import SignInOrOutButton from "@/components/Auth/SignInOrOutButton";
 
 export default function Files() {
 	const codeState = useAppSelector((state) => state.code);
@@ -19,6 +19,7 @@ export default function Files() {
 			/>
 			<FileList files={codeState.files} />
 			<CreateOrRenameFileForm action='create' />
+			<SignInOrOutButton />
 		</div>
 	);
 }

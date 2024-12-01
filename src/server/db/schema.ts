@@ -2,6 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import {
+	integer,
 	pgTableCreator,
 	serial,
 	text,
@@ -41,5 +42,14 @@ export const files = createTable("files", {
 	content: text("content").notNull(),
 	language: varchar("language", { length: 50 }),
 	createdAt: timestamp("created_at").defaultNow(),
+	ownerId: integer("owner_id")
+		.notNull()
+		.references(() => users.id),
+});
+
+export const users = createTable("users", {
+	id: serial("id").primaryKey(),
+	email: varchar("email", { length: 255 }).notNull().unique(),
+	shareLimit: integer("share_limit").default(5).notNull(), // Domyślny limit plików do udostępnienia
 });
 

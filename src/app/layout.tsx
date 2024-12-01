@@ -1,6 +1,6 @@
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
+import { ClerkProvider } from "@clerk/nextjs";
 import "@/styles/globals.css";
 
 import { TRPCReactProvider } from "@/trpc/react";
@@ -28,25 +28,27 @@ export default function RootLayout({
 	codeEditor: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
-			<AppRouterCacheProvider>
-				<ThemeProvider theme={lightTheme}>
-					<body className={GeistSans.className}>
-						<TRPCReactProvider>
-							<StoreProvider>
-								<HydrateClient>
-									<MainLayout
-										files={files}
-										codeEditor={codeEditor}>
-										{children}
-									</MainLayout>
-								</HydrateClient>
-							</StoreProvider>
-						</TRPCReactProvider>
-					</body>
-				</ThemeProvider>
-			</AppRouterCacheProvider>
-		</html>
+		<ClerkProvider>
+			<html lang='en'>
+				<AppRouterCacheProvider>
+					<ThemeProvider theme={lightTheme}>
+						<body className={GeistSans.className}>
+							<TRPCReactProvider>
+								<StoreProvider>
+									<HydrateClient>
+										<MainLayout
+											files={files}
+											codeEditor={codeEditor}>
+											{children}
+										</MainLayout>
+									</HydrateClient>
+								</StoreProvider>
+							</TRPCReactProvider>
+						</body>
+					</ThemeProvider>
+				</AppRouterCacheProvider>
+			</html>
+		</ClerkProvider>
 	);
 }
 
