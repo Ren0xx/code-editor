@@ -9,9 +9,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
 
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
-import KeyIcon from "@mui/icons-material/Key";
 
 import { type RouterOutputs } from "@/trpc/react";
 type Result = RouterOutputs["file"]["shareFile"];

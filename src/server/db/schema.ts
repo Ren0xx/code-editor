@@ -42,14 +42,14 @@ export const files = createTable("files", {
 	content: text("content").notNull(),
 	language: varchar("language", { length: 50 }),
 	createdAt: timestamp("created_at").defaultNow(),
-	ownerId: integer("owner_id")
+	ownerId: varchar("owner_id", { length: 50 })
 		.notNull()
 		.references(() => users.id),
 });
 
 export const users = createTable("users", {
-	id: serial("id").primaryKey(),
+	id: varchar("id", { length: 50 }).primaryKey(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
-	shareLimit: integer("share_limit").default(5).notNull(), // Domyślny limit plików do udostępnienia
+	shareLimit: integer("share_limit").default(5).notNull(),
 });
 

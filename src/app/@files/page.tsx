@@ -1,7 +1,8 @@
 "use client";
 
-import FileList from "@/components/Files/FileList";
 import { useAppSelector } from "@/lib/hooks";
+
+import FileList from "@/components/Files/FileList";
 import ActionsIcons from "@/components/Files/ActionsIcons";
 import CreateOrRenameFileForm from "@/components/Forms/CreateOrRenameFileForm";
 import SignInOrOutButton from "@/components/Auth/SignInOrOutButton";

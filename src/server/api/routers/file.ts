@@ -1,13 +1,17 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+	createTRPCRouter,
+	privateProcedure,
+	publicProcedure,
+} from "@/server/api/trpc";
 import { files } from "@/server/db/schema";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { eq } from "drizzle-orm";
 import { isValidUUID4 } from "@/utils/helperFunctions";
 
 export const fileRouter = createTRPCRouter({
-	shareFile: publicProcedure
+	shareFile: privateProcedure
 		.input(
 			z.object({
 				name: z.string().min(1),
@@ -22,6 +26,7 @@ export const fileRouter = createTRPCRouter({
 					name: input.name,
 					content: input.content,
 					language: input.language ?? null,
+					ownerId: ctx.currentUserId,
 				})
 				.returning({ link: files.linkId });
 
