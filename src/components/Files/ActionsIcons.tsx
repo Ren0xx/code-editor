@@ -57,14 +57,14 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 		}
 		try {
 			const result: Result = await shareFile(fileName, code, language);
-			const url = `/shareLink?shareLink=${
-				result.shareLink
-			}&error=${+!result.success}`;
+			const url = `/shareLink?shareLink=${result.shareLink}`;
 			router.push(url);
 		} catch (e) {
 			if (typeof e === "object" && e && "message" in e) {
-				// const url = `/shareLink?error=${+!}`;
-
+				const url = `/shareLink?error=${encodeURIComponent(
+					e.message as string
+				)}`;
+				router.push(url);
 				setSnackbarMessage("Failed to share code");
 				setSnackbarColor("error");
 				setSnackbarOpen(true);

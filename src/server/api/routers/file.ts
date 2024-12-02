@@ -32,7 +32,6 @@ export const fileRouter = createTRPCRouter({
 				throw new TRPCError({
 					code: "FORBIDDEN",
 					message: "You have reached your share limit",
-					
 				});
 			}
 

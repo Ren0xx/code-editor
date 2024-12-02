@@ -2,7 +2,7 @@ import { api } from "@/trpc/react";
 import { type Language } from "@/types/stateTypes";
 
 const useShareCode = () => {
-	const { mutateAsync, error } = api.file.shareFile.useMutation({});
+	const { mutateAsync } = api.file.shareFile.useMutation({});
 	const shareFile = async (
 		name: string,
 		content: string,
@@ -14,7 +14,7 @@ const useShareCode = () => {
 			language,
 		});
 	};
-	return { shareFile, error };
+	return { shareFile };
 };
 
 export default useShareCode;
