@@ -22,7 +22,7 @@ const defaultOptions: Options = {
 	fontSize: 16,
 	tabSize: 4,
 };
-
+export const FILE_SHARE_LIMIT = 5;
 export const MAX_CONTENT_LENGTH = 50000;
 
 export {

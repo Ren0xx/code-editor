@@ -5,10 +5,11 @@ import {
 	privateProcedure,
 	publicProcedure,
 } from "@/server/api/trpc";
-import { files } from "@/server/db/schema";
+import { files, users } from "@/server/db/schema";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
 import { eq } from "drizzle-orm";
 import { isValidUUID4 } from "@/utils/helperFunctions";
+import { TRPCError } from "@trpc/server";
 
 export const fileRouter = createTRPCRouter({
 	shareFile: privateProcedure
@@ -20,6 +21,21 @@ export const fileRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
+			const user = await ctx.db.query.users.findFirst({
+				where: eq(users.id, ctx.currentUserId),
+				columns: {
+					remainingFileShare: true,
+				},
+			});
+			// LIMIT REACHED
+			if (user?.remainingFileShare === 0) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "You have reached your share limit",
+					
+				});
+			}
+
 			const newFile = await ctx.db
 				.insert(files)
 				.values({
@@ -30,9 +46,25 @@ export const fileRouter = createTRPCRouter({
 				})
 				.returning({ link: files.linkId });
 
+			//ERROR WITH FILE SHARING
+			const shareLink = newFile[0]?.link;
+			if (!shareLink) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to create share link",
+				});
+			}
+
+			await ctx.db
+				.update(users)
+				.set({
+					remainingFileShare: (user?.remainingFileShare ?? 0) - 1,
+				})
+				.where(eq(users.id, ctx.currentUserId));
+
 			return {
-				shareLink: newFile[0]?.link,
-				success: !!newFile[0]?.link,
+				success: true,
+				shareLink,
 			};
 		}),
 	getFileByLinkId: publicProcedure

@@ -10,7 +10,7 @@ import {
 	uuid,
 	varchar,
 } from "drizzle-orm/pg-core";
-
+import { FILE_SHARE_LIMIT } from "@/utils/constants";
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
@@ -50,6 +50,8 @@ export const files = createTable("files", {
 export const users = createTable("users", {
 	id: varchar("id", { length: 50 }).primaryKey(),
 	email: varchar("email", { length: 255 }).notNull().unique(),
-	shareLimit: integer("share_limit").default(5).notNull(),
+	remainingFileShare: integer("remainingFileShare")
+		.default(FILE_SHARE_LIMIT)
+		.notNull(),
 });
 
