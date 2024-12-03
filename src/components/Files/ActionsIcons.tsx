@@ -8,6 +8,7 @@ import Snackbar from "@/components/Info/Snackbar";
 import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
+import UploadIcon from "@mui/icons-material/Upload";
 
 import { type AlertColor } from "@mui/material";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
@@ -28,31 +29,37 @@ type ActionsIconsProps = {
 
 const ActionsIcons = (props: ActionsIconsProps) => {
 	const router = useRouter();
-	const { isSignedIn } = useUser();
+
 	const { code, fileName, language } = props;
+
+	const { shareFile } = useShareCode();
+	const { isSignedIn } = useUser();
+
 	const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 	const [snackBarColor, setSnackbarColor] = useState<AlertColor>("success");
 	const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
-	const { shareFile } = useShareCode();
+	const openSnackbarWithProps = (message: string, color: AlertColor) => {
+		setSnackbarMessage(message);
+		setSnackbarColor(color);
+		setSnackbarOpen(true);
+	};
+
 	const saveCode = () => {
 		saveCodeToFile(code, fileName);
-		setSnackbarMessage("Code saved to file");
-		setSnackbarColor("success");
-		setSnackbarOpen(true);
+		openSnackbarWithProps("Code saved to file", "success");
 	};
 
 	const copyToClipboard = () => {
 		void navigator.clipboard.writeText(code);
-		setSnackbarMessage("Code copied to clipboard");
-		setSnackbarColor("success");
-		setSnackbarOpen(true);
+		openSnackbarWithProps("Code copied to clipboard", "success");
 	};
 	const share = async () => {
 		if (!isSignedIn) {
-			setSnackbarMessage("You must be signed in to share code");
-			setSnackbarColor("info");
-			setSnackbarOpen(true);
+			openSnackbarWithProps(
+				"You must be signed in to share code",
+				"info"
+			);
 			return;
 		}
 		try {
