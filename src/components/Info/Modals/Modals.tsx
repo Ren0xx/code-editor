@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 import { Box, Modal } from "@mui/material";
 
-import AddFileFromLinkForm from "@/components/Forms/AddFileFromLinkForm";
 import CreateOrRenameFileForm from "@/components/Forms/CreateOrRenameFileForm";
 import ConfirmationForm from "@/components/Forms/ConfirmationForm";
 
@@ -80,15 +79,15 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
 	);
 };
 
-export const FileAddModal = () => {
+export const ModalWithChildren = ({
+	children,
+}: Readonly<{ children: React.ReactNode }>) => {
 	const router = useRouter();
 	const handleClose = () => router.back();
 
 	return (
 		<Modal open={true} onClose={handleClose}>
-			<Box sx={style}>
-				<AddFileFromLinkForm />
-			</Box>
+			<Box sx={style}>{children}</Box>
 		</Modal>
 	);
 };

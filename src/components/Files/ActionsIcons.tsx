@@ -81,6 +81,9 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 	const openAddFileModal = () => {
 		router.push("/addFileFromLink");
 	};
+	const openImportFileModal = () => {
+		router.push("/importFile");
+	};
 	const handleSnackbarClose = () => setSnackbarOpen(false);
 	return (
 		<div>
@@ -102,6 +105,10 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			<IconButton onClick={openAddFileModal}>
 				<ImportExportIcon />
 			</IconButton>
+			<IconButton onClick={openImportFileModal}>
+				<UploadIcon />
+			</IconButton>
+
 			<Snackbar
 				open={snackbarOpen}
 				message={snackbarMessage}

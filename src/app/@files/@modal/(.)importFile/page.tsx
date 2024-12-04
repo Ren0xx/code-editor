@@ -1,15 +1,13 @@
-"use client";
-
 import Files from "@/app/@files/page";
-import AddFileFromLinkForm from "@/components/Forms/AddFileFromLinkForm";
+import ImportFileForm from "@/components/Forms/ImportFileForm";
 import { ModalWithChildren } from "@/components/Info/Modals/Modals";
 
-export default function AddFileInfo() {
+export default function ImportFile() {
 	return (
 		<>
 			<Files />
 			<ModalWithChildren>
-				<AddFileFromLinkForm />
+				<ImportFileForm />
 			</ModalWithChildren>
 		</>
 	);
