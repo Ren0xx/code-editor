@@ -3,16 +3,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Typography, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { importFileSchema } from "@/schemas/validation/file/importFile";
+import { importFileSchema as formSchema } from "@/schemas/validation/file/importFile";
 import { type z } from "zod";
 
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { createFile } from "@/lib/code/codeSlice";
 import { getLanguageFromExtension } from "@/utils/helperFunctions";
 
 const ImportFileForm = () => {
 	const dispatch = useAppDispatch();
+	const files = useAppSelector((state) => state.code.files);
+	const filesNames = files.map((file) => file.name);
 
+	const importFileSchema = formSchema(filesNames);
 	const {
 		control,
 		handleSubmit,
@@ -38,7 +41,6 @@ const ImportFileForm = () => {
 		}
 	};
 
-	// Obsługa zmiany pliku
 	const handleFileChange = async (file: File | undefined) => {
 		if (!file) {
 			setError("file", {
@@ -47,10 +49,9 @@ const ImportFileForm = () => {
 			});
 			return;
 		}
-
 		try {
 			clearErrors("file");
-			setValue("file", file); // Ustaw plik w formularzu
+			setValue("file", file);
 		} catch (error) {
 			console.error("Error processing file:", error);
 			setError("file", {
@@ -60,7 +61,6 @@ const ImportFileForm = () => {
 		}
 	};
 
-	// Obsługa przesłania formularza
 	const onSubmit = async (data: z.infer<typeof importFileSchema>) => {
 		try {
 			const file = data.file;
