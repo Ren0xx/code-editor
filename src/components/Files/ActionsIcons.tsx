@@ -3,7 +3,7 @@
 import { saveCodeToFile } from "@/utils/helperFunctions";
 import useShareCode from "@/hooks/useShareCode";
 
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import Snackbar from "@/components/Info/Snackbar";
 import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -85,28 +85,46 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 	const handleSnackbarClose = () => setSnackbarOpen(false);
 	return (
 		<div>
-			<IconButton
-				aria-label='save code as file'
-				onClick={saveCode}
-				size='large'>
-				<SaveIcon />
-			</IconButton>
-			<IconButton
-				aria-label='copy code to clipboard'
-				onClick={copyToClipboard}
-				size='large'>
-				<ContentCopyIcon />
-			</IconButton>
-			<IconButton aria-label='Share code' onClick={share}>
-				<ShareIcon />
-			</IconButton>
-			<IconButton onClick={openAddFileModal}>
-				<ImportExportIcon />
-			</IconButton>
-			<IconButton onClick={openImportFileModal}>
-				<UploadIcon />
-			</IconButton>
-
+			<Tooltip title='Save code as file'>
+				<IconButton
+					aria-label='save code as file'
+					onClick={saveCode}
+					size='large'>
+					<SaveIcon />
+				</IconButton>
+			</Tooltip>
+			<Tooltip title='Copy code to clipboard'>
+				<IconButton
+					aria-label='copy code to clipboard'
+					onClick={copyToClipboard}
+					size='large'>
+					<ContentCopyIcon />
+				</IconButton>
+			</Tooltip>
+			<Tooltip title='Share your code'>
+				<IconButton
+					aria-label='Share code'
+					onClick={share}
+					size='large'>
+					<ShareIcon />
+				</IconButton>
+			</Tooltip>
+			<Tooltip title='Import file from link'>
+				<IconButton
+					aria-label='Import file from link'
+					onClick={openAddFileModal}
+					size='large'>
+					<ImportExportIcon />
+				</IconButton>
+			</Tooltip>
+			<Tooltip title='Import file from your computer'>
+				<IconButton
+					aria-label='Import file from your computer'
+					onClick={openImportFileModal}
+					size='large'>
+					<UploadIcon />
+				</IconButton>
+			</Tooltip>
 			<Snackbar
 				open={snackbarOpen}
 				message={snackbarMessage}
