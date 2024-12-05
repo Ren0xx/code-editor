@@ -71,10 +71,8 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 				const url = `/shareLink?error=${encodeURIComponent(
 					e.message as string
 				)}`;
+				openSnackbarWithProps("Failed to share code", "error");
 				router.push(url);
-				setSnackbarMessage("Failed to share code");
-				setSnackbarColor("error");
-				setSnackbarOpen(true);
 			}
 		}
 	};

@@ -19,10 +19,9 @@ type FormProps = {
 	action: "create" | "rename";
 	fileIndex?: number;
 	currentName?: string;
-	handleModalClose?: () => void;
 };
 const CreateOrRenameFileForm = (props: FormProps) => {
-	const { action, fileIndex, currentName = "", handleModalClose } = props;
+	const { action, fileIndex, currentName = "" } = props;
 
 	const dispatch = useAppDispatch();
 
@@ -64,7 +63,6 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 			};
 			dispatch(renameFile(obj));
 		}
-		if (handleModalClose) handleModalClose();
 	};
 
 	return (

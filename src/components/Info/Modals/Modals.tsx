@@ -1,10 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import { Box, Modal } from "@mui/material";
-
-import CreateOrRenameFileForm from "@/components/Forms/CreateOrRenameFileForm";
 import ConfirmationForm from "@/components/Forms/ConfirmationForm";
 
 const style = {
@@ -15,34 +12,6 @@ const style = {
 	bgcolor: "background.paper",
 	boxShadow: 24,
 	p: 4,
-};
-
-type RenameModalProps = {
-	currentName: string;
-	fileIndex: number;
-};
-
-export const RenameModal = (props: RenameModalProps) => {
-	const { currentName, fileIndex } = props;
-	const router = useRouter();
-
-	const handleModalClose = () => router.back();
-	return (
-		<Modal
-			open={true}
-			onClose={handleModalClose}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'>
-			<Box sx={style}>
-				<CreateOrRenameFileForm
-					action='rename'
-					fileIndex={fileIndex}
-					currentName={currentName}
-					handleModalClose={handleModalClose}
-				/>
-			</Box>
-		</Modal>
-	);
 };
 
 type ConfirmModalProps = {
