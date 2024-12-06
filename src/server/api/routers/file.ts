@@ -7,10 +7,15 @@ import {
 } from "@/server/api/trpc";
 import { files, users } from "@/server/db/schema";
 import { MAX_CONTENT_LENGTH } from "@/utils/constants";
-import { eq } from "drizzle-orm";
+import { type AnyColumn, eq, sql } from "drizzle-orm";
 import { isValidUUID4 } from "@/utils/helperFunctions";
 import { TRPCError } from "@trpc/server";
-
+const increment = (column: AnyColumn, value = 1) => {
+	return sql`${column} + ${value}`;
+};
+const decrement = (column: AnyColumn, value = 1) => {
+	return sql`${column} - ${value}`;
+};
 export const fileRouter = createTRPCRouter({
 	shareFile: privateProcedure
 		.input(
@@ -57,7 +62,7 @@ export const fileRouter = createTRPCRouter({
 			await ctx.db
 				.update(users)
 				.set({
-					remainingFileShare: (user?.remainingFileShare ?? 0) - 1,
+					remainingFileShare: decrement(users.remainingFileShare),
 				})
 				.where(eq(users.id, ctx.currentUserId));
 
@@ -81,6 +86,40 @@ export const fileRouter = createTRPCRouter({
 				},
 			});
 			return file ?? "File not found";
+		}),
+	getUsersSharedFiles: privateProcedure.query(async ({ ctx }) => {
+		const sharedFiles = await ctx.db.query.files.findMany({
+			where: eq(files.ownerId, ctx.currentUserId),
+			columns: {
+				id: true,
+				name: true,
+			},
+		});
+		return sharedFiles;
+	}),
+	deleteFile: privateProcedure
+		.input(z.number())
+		.mutation(async ({ ctx, input }) => {
+			const deletedFile = await ctx.db
+				.delete(files)
+				.where(eq(files.id, input))
+				.returning();
+
+			// ERROR WITH FILE DELETION
+			if (deletedFile.length === 0) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "File not found",
+				});
+			}
+			await ctx.db
+				.update(users)
+				.set({
+					remainingFileShare: increment(users.remainingFileShare),
+				})
+				.where(eq(users.id, ctx.currentUserId));
+
+			return deletedFile;
 		}),
 });
 

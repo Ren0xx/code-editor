@@ -56,7 +56,7 @@ const CodeEditor = () => {
 	useCodeSuggestions(monacoInstance, language);
 
 	return (
-		<div>
+		<>
 			{monacoInstance !== null ? (
 				<div>
 					<MonacoEditor
@@ -89,7 +89,7 @@ const CodeEditor = () => {
 			) : (
 				<h3>Loading</h3>
 			)}
-		</div>
+		</>
 	);
 };
 
