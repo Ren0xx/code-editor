@@ -3,15 +3,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { type RouterOutputs } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 type File = RouterOutputs["file"]["getUsersSharedFiles"][0];
 
 type SharedFilesListProps = {
 	files: File[];
-	handleFileDelete: (id: number) => void;
 	refetchShareFiles?: () => Promise<void>;
 };
 const SharedFilesList = (props: SharedFilesListProps) => {
-	const { files, handleFileDelete, refetchShareFiles } = props;
+	const { files,  refetchShareFiles } = props;
+	const router = useRouter();
+
+	const openDeleteModal = (id:number) => {
+		router.push(`/sharedFiles/delete/${id}`)
+	}
 
 	return (
 		<div>
@@ -31,7 +36,7 @@ const SharedFilesList = (props: SharedFilesListProps) => {
 					<Box key={index} sx={{ display: "flex" }}>
 						<Typography align='center'>{file.name}</Typography>
 						<IconButton
-							onClick={() => handleFileDelete(file.id)}
+							onClick={() => openDeleteModal(file.id)}
 							color='error'>
 							<DeleteIcon />
 						</IconButton>

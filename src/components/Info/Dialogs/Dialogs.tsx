@@ -98,5 +98,12 @@ const AddFileInfoDialog = (props: AddFileInfoProps) => {
 		</Dialog>
 	);
 };
+// type DeleteSharedFileDialogProps = {
+
+// }
+// const DeleteSharedFileDialog = (props: DeleteSharedFileDialogProps) => {
+
+
+// }
 export { ShareLinkDialog, AddFileInfoDialog };
 
