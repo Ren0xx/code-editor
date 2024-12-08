@@ -2,8 +2,8 @@
 
 import SharedFilesList from "@/components/Files/SharedFilesList";
 import useGetUsersSharedFiles from "@/hooks/useGetUsersSharedFiles";
-import useDeleteFile from "@/hooks/useDeleteFile";
-import { Box } from "@mui/material";
+
+import { Box, Typography } from "@mui/material";
 
 const style = {
 	position: "absolute",
@@ -15,22 +15,25 @@ const style = {
 	p: 4,
 };
 export default function SharedFiles() {
-	const { files, isLoading, refetchSharedFiles } = useGetUsersSharedFiles();
-	const { deleteFile } = useDeleteFile(refetchSharedFiles);
-
-	const handleFileDelete = async (id: number) => {
-		await deleteFile(id);
-	};
-
-	if (isLoading) return "Loading ...";
+	const { files, isLoading, isError, refetchSharedFiles } =
+		useGetUsersSharedFiles();
 
 	return (
 		<Box sx={style}>
-			<SharedFilesList
-				files={files ?? []}
-				handleFileDelete={handleFileDelete}
-				refetchShareFiles={refetchSharedFiles}
-			/>
+			{isLoading ? (
+				<Typography variant='h5' component='h2'>
+					Loading ...
+				</Typography>
+			) : isError ? (
+				<Typography variant='h5' component='h2'>
+					Error occurred while loading shared files.
+				</Typography>
+			) : (
+				<SharedFilesList
+					files={files ?? []}
+					refetchShareFiles={refetchSharedFiles}
+				/>
+			)}
 		</Box>
 	);
 }
