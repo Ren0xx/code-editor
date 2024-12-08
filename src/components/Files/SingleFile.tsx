@@ -4,30 +4,27 @@ import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeActiveFile } from "@/lib/code/codeSlice";
 
-import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 type FileProps = {
 	fileName: string;
 	fileIndex: number;
 };
 const SingleFile = (props: FileProps) => {
 	const { fileName, fileIndex } = props;
-	
-	const router = useRouter();
 
 	const { activeFile } = useAppSelector((state) => state.code);
 	const dispatch = useAppDispatch();
 
 	const anchorRef = useRef<HTMLButtonElement | null>(null);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	
+
 	const isActiveFile = fileName === activeFile.name;
 
 	const handleFileSelect = () => {
 		if (activeFile.name === fileName) return;
 		dispatch(changeActiveFile(fileIndex));
 	};
-	
+
 	const handleRightClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		anchorRef.current = event.currentTarget;
@@ -35,15 +32,6 @@ const SingleFile = (props: FileProps) => {
 	};
 	const handleMenuClose = () => setMenuOpen(false);
 
-	//opening modals using routes
-	const handleRenameClick = () => {
-		router.push(`/rename/${fileIndex}?name=${fileName}`);
-		handleMenuClose();
-	};
-	const handleDeleteClick = () => {
-		router.push(`/delete/${fileIndex}`);
-		handleMenuClose();
-	};
 	return (
 		<Box>
 			<Button
@@ -60,8 +48,14 @@ const SingleFile = (props: FileProps) => {
 				onClose={handleMenuClose}
 				anchorOrigin={{ vertical: "top", horizontal: "center" }}
 				transformOrigin={{ vertical: "top", horizontal: "center" }}>
-				<MenuItem onClick={() => handleRenameClick()}>Rename</MenuItem>
-				<MenuItem onClick={() => handleDeleteClick()}>Delete</MenuItem>
+				<MenuItem
+					component={Link}
+					href={`/rename/${fileIndex}?name=${fileName}`}>
+					Rename
+				</MenuItem>
+				<MenuItem component={Link} href={`/delete/${fileIndex}`}>
+					Delete
+				</MenuItem>
 			</Menu>
 		</Box>
 	);

@@ -26,6 +26,7 @@ type ActionsIconsProps = {
 	fileName: string;
 	language?: Language;
 };
+import Link from "next/link";
 
 const ActionsIcons = (props: ActionsIconsProps) => {
 	const router = useRouter();
@@ -76,13 +77,8 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			}
 		}
 	};
-	const openAddFileModal = () => {
-		router.push("/addFileFromLink");
-	};
-	const openImportFileModal = () => {
-		router.push("/importFile");
-	};
 	const handleSnackbarClose = () => setSnackbarOpen(false);
+
 	return (
 		<div>
 			<Tooltip title='Save code as file'>
@@ -111,8 +107,9 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			</Tooltip>
 			<Tooltip title='Import file from link'>
 				<IconButton
+					component={Link}
+					href='/addFileFromLink'
 					aria-label='Import file from link'
-					onClick={openAddFileModal}
 					size='large'>
 					<ImportExportIcon />
 				</IconButton>
@@ -120,7 +117,8 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 			<Tooltip title='Import file from your computer'>
 				<IconButton
 					aria-label='Import file from your computer'
-					onClick={openImportFileModal}
+					component={Link}
+					href='/importFile'
 					size='large'>
 					<UploadIcon />
 				</IconButton>

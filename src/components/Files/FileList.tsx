@@ -14,9 +14,11 @@ const FileList = (props: FileListProps) => {
 			<h2>File list</h2>
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
 				{files.map((file, index) => (
-					<div key={index}>
-						<SingleFile fileName={file.name} fileIndex={index} />
-					</div>
+					<SingleFile
+						fileName={file.name}
+						fileIndex={index}
+						key={index}
+					/>
 				))}
 			</Box>
 		</div>
