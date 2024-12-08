@@ -32,11 +32,12 @@ export const languageOptions = [
 ] as const;
 export const themeOptions = ["vs", "vs-dark", "hc-black"] as const;
 
-export type Theme = (typeof themeOptions)[number];
+export type EditorTheme = (typeof themeOptions)[number];
 export type Language = (typeof languageOptions)[number];
 
 export type SettingsState = {
-	theme: Theme;
+	editorTheme: EditorTheme;
+	lightTheme: boolean;	
 	options: Options;
 };
 

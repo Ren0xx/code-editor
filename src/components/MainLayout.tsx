@@ -1,6 +1,11 @@
 "use client";
 
+import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { lightTheme, darkTheme } from "@/styles/theme";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+
+import { useAppSelector } from "@/lib/hooks";
 export default function MainLayout({
 	files,
 	codeEditor,
@@ -10,13 +15,20 @@ export default function MainLayout({
 	codeEditor: React.ReactNode;
 	children: React.ReactNode;
 }>) {
+	const isLightTheme = useAppSelector((state) => state.settings.lightTheme);
+	const theme = isLightTheme ? lightTheme : darkTheme;
 	return (
-		<main>
-			<Grid container>
-				<Grid size={2}>{files}</Grid>
-				<Grid size={10}>{codeEditor}</Grid>
-			</Grid>
-			{children}
-		</main>
+		<AppRouterCacheProvider>
+			<ThemeProvider theme={theme}>
+				<Container component='main' maxWidth='xl'>
+					<Grid container>
+						<Grid size={2}>{files}</Grid>
+						<Grid size={10}>{codeEditor}</Grid>
+					</Grid>
+					{children}
+				</Container>
+				<CssBaseline />
+			</ThemeProvider>
+		</AppRouterCacheProvider>
 	);
 }

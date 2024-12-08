@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeTheme } from "@/lib/settings/settingsSlice";
 import { changeCurrentCode } from "@/lib/code/codeSlice";
 
-import { themeOptions, type Theme } from "@/types/stateTypes";
+import { themeOptions, type EditorTheme } from "@/types/stateTypes";
 import { Button } from "@mui/material";
 import useChangeEditorOptions from "@/hooks/useChangeEditorOptions";
 
@@ -24,7 +24,7 @@ const CodeEditor = () => {
 		null
 	);
 
-	const { theme } = useAppSelector((state) => state.settings);
+	const { editorTheme: theme } = useAppSelector((state) => state.settings);
 	const { code, language } = useAppSelector((state) => state.code.activeFile);
 	const editorOptions = useAppSelector((state) => state.settings.options);
 	const {
@@ -36,7 +36,7 @@ const CodeEditor = () => {
 	const dispatch = useAppDispatch();
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(changeTheme(e.target.value as Theme));
+		dispatch(changeTheme(e.target.value as EditorTheme));
 	};
 	const handleCodeChange = (e: string) => {
 		dispatch(changeCurrentCode(e));

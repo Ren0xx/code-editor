@@ -4,11 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "@/styles/globals.css";
 
 import { TRPCReactProvider } from "@/trpc/react";
-import { StoreProvider } from "@/components/StoreProvider";
-import lightTheme from "@/styles/theme";
-import { ThemeProvider } from "@mui/material";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import MainLayout from "@/components/MainLayout";
+
 export const metadata: Metadata = {
 	title: "Code editor",
 	description:
@@ -17,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 import { HydrateClient } from "@/trpc/server";
+import { StoreProvider } from "@/components/StoreProvider";
 
 export default function RootLayout({
 	children,
@@ -30,25 +28,20 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang='en'>
-				<AppRouterCacheProvider>
-					<ThemeProvider theme={lightTheme}>
-						<body className={GeistSans.className}>
-							<TRPCReactProvider>
-								<StoreProvider>
-									<HydrateClient>
-										<MainLayout
-											files={files}
-											codeEditor={codeEditor}>
-											{children}
-										</MainLayout>
-									</HydrateClient>
-								</StoreProvider>
-							</TRPCReactProvider>
-						</body>
-					</ThemeProvider>
-				</AppRouterCacheProvider>
+				<body className={GeistSans.className}>
+					<TRPCReactProvider>
+						<HydrateClient>
+							<StoreProvider>
+								<MainLayout
+									files={files}
+									codeEditor={codeEditor}>
+									{children}
+								</MainLayout>
+							</StoreProvider>
+						</HydrateClient>
+					</TRPCReactProvider>
+				</body>
 			</html>
 		</ClerkProvider>
 	);
 }
-
