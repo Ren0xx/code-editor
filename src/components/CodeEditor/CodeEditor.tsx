@@ -15,9 +15,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeTheme } from "@/lib/settings/settingsSlice";
 import { changeCurrentCode } from "@/lib/code/codeSlice";
 
-import { themeOptions, type EditorTheme } from "@/types/stateTypes";
-import { Button } from "@mui/material";
-import useChangeEditorOptions from "@/hooks/useChangeEditorOptions";
+import { type EditorTheme } from "@/types/stateTypes";
+import ThemeSelector from "@/components/CodeEditor/ThemeSelector";
+import EditorOptions from "@/components/CodeEditor/EditorOptions";
+import { type SelectChangeEvent } from "@mui/material";
 
 const CodeEditor = () => {
 	const [monacoInstance, setMonacoInstance] = useState<MonacoInstance | null>(
@@ -27,15 +28,10 @@ const CodeEditor = () => {
 	const { editorTheme: theme } = useAppSelector((state) => state.settings);
 	const { code, language } = useAppSelector((state) => state.code.activeFile);
 	const editorOptions = useAppSelector((state) => state.settings.options);
-	const {
-		changeTabSizeToTwo,
-		changeTabSizeToFour,
-		increaseFont,
-		decreaseFont,
-	} = useChangeEditorOptions();
+
 	const dispatch = useAppDispatch();
 
-	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const handleThemeChange = (e: SelectChangeEvent) => {
 		dispatch(changeTheme(e.target.value as EditorTheme));
 	};
 	const handleCodeChange = (e: string) => {
@@ -67,24 +63,11 @@ const CodeEditor = () => {
 						language={language}
 						onChange={(e) => handleCodeChange(e!)}
 					/>
-					<select value={theme} onChange={handleThemeChange}>
-						{themeOptions.map((theme) => (
-							<option key={theme} value={theme}>
-								{theme}
-							</option>
-						))}
-					</select>
-					<h3>Current Language: {language}</h3>
-					<div>
-						<h3>Font Size:</h3>
-						<Button onClick={increaseFont}>+</Button>
-						<Button onClick={decreaseFont}>-</Button>
-					</div>
-					<div>
-						<h3>Tab Size:</h3>
-						<Button onClick={changeTabSizeToTwo}>2</Button>
-						<Button onClick={changeTabSizeToFour}>4</Button>
-					</div>
+					<ThemeSelector
+						theme={theme}
+						handleThemeChange={handleThemeChange}
+					/>
+					<EditorOptions />
 				</div>
 			) : (
 				<h3>Loading</h3>

@@ -10,6 +10,19 @@ const lightTheme = createTheme({
 		secondary: {
 			main: "#9e9d24",
 		},
+		divider: "#000000",
+	},
+	typography: {
+		button: {
+			textTransform: "none",
+		},
+	},
+	components: {
+		MuiButtonBase: {
+			defaultProps: {
+				disableRipple: true,
+			},
+		},
 	},
 });
 const darkTheme = createTheme({
@@ -19,7 +32,22 @@ const darkTheme = createTheme({
 			main: "#3f51b5",
 		},
 		secondary: {
-			main: "#f50057",
+			main: "#33359575",
+		},
+		divider: "#ffffff",
+		background: { default: "#1f1f39" },
+	},
+
+	typography: {
+		button: {
+			textTransform: "none",
+		},
+	},
+	components: {
+		MuiButtonBase: {
+			defaultProps: {
+				disableRipple: true,
+			},
 		},
 	},
 });

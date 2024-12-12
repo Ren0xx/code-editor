@@ -1,5 +1,5 @@
 import SingleFile from "@/components/Files/SingleFile";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { type File } from "@/types/stateTypes";
 
 type FileListProps = {
@@ -10,9 +10,16 @@ const FileList = (props: FileListProps) => {
 	const { files } = props;
 
 	return (
-		<div>
-			<h2>File list</h2>
-			<Box sx={{ display: "flex", flexDirection: "column" }}>
+		<section>
+			<Typography variant='h4' component='h2'>Files</Typography>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					listStyleType: "none",
+					paddingLeft: 0,
+				}}
+				component='ul'>
 				{files.map((file, index) => (
 					<SingleFile
 						fileName={file.name}
@@ -21,7 +28,7 @@ const FileList = (props: FileListProps) => {
 					/>
 				))}
 			</Box>
-		</div>
+		</section>
 	);
 };
 

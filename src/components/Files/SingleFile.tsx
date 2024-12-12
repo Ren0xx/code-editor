@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { changeActiveFile } from "@/lib/code/codeSlice";
 
@@ -33,13 +33,16 @@ const SingleFile = (props: FileProps) => {
 	const handleMenuClose = () => setMenuOpen(false);
 
 	return (
-		<Box>
+		<li>
 			<Button
-				variant={isActiveFile ? "contained" : "outlined"}
+				fullWidth={true}
+				// variant={isActiveFile ? "contained" : "outlined"}
+				variant='contained'
 				color={isActiveFile ? "primary" : "secondary"}
 				onClick={handleFileSelect}
 				onContextMenu={handleRightClick}
-				ref={anchorRef}>
+				ref={anchorRef}
+				sx={{ justifyContent: "flex-start" }}>
 				{fileName}
 			</Button>
 			<Menu
@@ -57,7 +60,7 @@ const SingleFile = (props: FileProps) => {
 					Delete
 				</MenuItem>
 			</Menu>
-		</Box>
+		</li>
 	);
 };
 

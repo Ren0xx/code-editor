@@ -80,7 +80,7 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 	const handleSnackbarClose = () => setSnackbarOpen(false);
 
 	return (
-		<div>
+		<section>
 			<Tooltip title='Save code as file'>
 				<IconButton
 					aria-label='save code as file'
@@ -129,7 +129,7 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 				handleClose={handleSnackbarClose}
 				alertColor={snackBarColor}
 			/>
-		</div>
+		</section>
 	);
 };
 

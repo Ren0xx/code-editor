@@ -13,7 +13,7 @@ import { type z } from "zod";
 
 import { type File } from "@/types/stateTypes";
 
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 
 type FormProps = {
 	action: "create" | "rename";
@@ -66,21 +66,26 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 	};
 
 	return (
-		<Box
-			component='form'
-			onSubmit={handleSubmit(onSubmit)}
-			sx={{ display: "flex", flexDirection: "column" }}>
-			<TextField
-				{...register("fileName")}
-				label='File Name'
-				variant='filled'
-				error={!!errors.fileName}
-				helperText={errors.fileName?.message}
-			/>
-			<Button type='submit' variant='contained'>
-				{action === "create" ? "Create File" : "Rename File"}
-			</Button>
-		</Box>
+		<section>
+			<Box
+				component='form'
+				onSubmit={handleSubmit(onSubmit)}
+				sx={{ display: "flex", flexDirection: "column" }}>
+				<Typography variant='h6' component='h2'>
+					Create new file
+				</Typography>
+				<TextField
+					{...register("fileName")}
+					label='File Name'
+					variant='filled'
+					error={!!errors.fileName}
+					helperText={errors.fileName?.message}
+				/>
+				<Button type='submit' variant='contained'>
+					{action === "create" ? "Create File" : "Rename File"}
+				</Button>
+			</Box>
+		</section>
 	);
 };
 
