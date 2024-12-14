@@ -36,7 +36,6 @@ const SingleFile = (props: FileProps) => {
 		<li>
 			<Button
 				fullWidth={true}
-				// variant={isActiveFile ? "contained" : "outlined"}
 				variant='contained'
 				color={isActiveFile ? "primary" : "secondary"}
 				onClick={handleFileSelect}

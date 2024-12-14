@@ -3,7 +3,7 @@
 import { saveCodeToFile } from "@/utils/helperFunctions";
 import useShareCode from "@/hooks/useShareCode";
 
-import { IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import Snackbar from "@/components/Info/Snackbar";
 import SaveIcon from "@mui/icons-material/Save";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -80,7 +80,9 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 	const handleSnackbarClose = () => setSnackbarOpen(false);
 
 	return (
-		<section>
+		<Box
+			component='section'
+			sx={{ display: "flex", justifyContent: "space-between" }}>
 			<Tooltip title='Save code as file'>
 				<IconButton
 					aria-label='save code as file'
@@ -129,7 +131,7 @@ const ActionsIcons = (props: ActionsIconsProps) => {
 				handleClose={handleSnackbarClose}
 				alertColor={snackBarColor}
 			/>
-		</section>
+		</Box>
 	);
 };
 

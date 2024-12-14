@@ -37,7 +37,7 @@ export type Language = (typeof languageOptions)[number];
 
 export type SettingsState = {
 	editorTheme: EditorTheme;
-	lightTheme: boolean;	
+	lightTheme: boolean;
 	options: Options;
 };
 
@@ -53,6 +53,6 @@ export type CodeState = {
 
 export type Options = {
 	fontSize: number;
-	tabSize: number;
+	tabSize: 2 | 4;
 };
 

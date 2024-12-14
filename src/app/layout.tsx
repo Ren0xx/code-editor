@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
 import { HydrateClient } from "@/trpc/server";
 import { StoreProvider } from "@/components/StoreProvider";
+import { dark } from "@clerk/themes";
 
 export default function RootLayout({
 	children,
@@ -26,7 +27,7 @@ export default function RootLayout({
 	codeEditor: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider>
+		<ClerkProvider appearance={{ baseTheme: dark }}>
 			<html lang='en'>
 				<body className={GeistSans.className}>
 					<TRPCReactProvider>

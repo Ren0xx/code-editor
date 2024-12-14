@@ -13,18 +13,18 @@ export default function Files() {
 	const { code, name: currentFileName, language } = codeState.activeFile;
 
 	return (
-		<aside>
+		<>
 			<ActionsIcons
 				code={code}
 				fileName={currentFileName}
 				language={language}
 			/>
-			<Link href='/sharedFiles'>Shared Files</Link>
 			<FileList files={codeState.files} />
 			<Divider sx={{ my: "0.3em" }} />
 			<CreateOrRenameFileForm action='create' />
+			<Link href='/sharedFiles'>Shared Files</Link>
 			<SignInOrOutButton />
-		</aside>
+		</>
 	);
 }
 

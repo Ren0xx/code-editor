@@ -1,6 +1,6 @@
 "use client";
 
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
 const lightTheme = createTheme({
 	palette: {
 		mode: "light",
@@ -29,13 +29,13 @@ const darkTheme = createTheme({
 	palette: {
 		mode: "dark",
 		primary: {
-			main: "#3f51b5",
+			main: "#323F8C",
 		},
 		secondary: {
-			main: "#33359575",
+			main: alpha("#2C387E", 0.3),
 		},
 		divider: "#ffffff",
-		background: { default: "#1f1f39" },
+		// background: { default: "#1f1f39" },
 	},
 
 	typography: {

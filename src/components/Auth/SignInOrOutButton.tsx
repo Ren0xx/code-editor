@@ -1,16 +1,31 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 export default function SignInOrOutButton() {
 	const { isSignedIn } = useUser();
 
-	return !isSignedIn ? (
-		<SignInButton mode='modal'>
-			<Button>Sign In</Button>
-		</SignInButton>
-	) : (
-		<SignOutButton>
-			<Button>Sign Out</Button>
-		</SignOutButton>
+	const commonStyles = {
+		position: "sticky",
+		bottom: 10,
+		mt: "auto",
+		px: 2,
+	};
+
+	return (
+		<Box sx={commonStyles}>
+			{isSignedIn ? (
+				<SignOutButton>
+					<Button variant='contained' fullWidth={true}>
+						Sign Out
+					</Button>
+				</SignOutButton>
+			) : (
+				<SignInButton mode='modal'>
+					<Button variant='contained' fullWidth={true}>
+						Sign In
+					</Button>
+				</SignInButton>
+			)}
+		</Box>
 	);
 }
 

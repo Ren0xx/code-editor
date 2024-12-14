@@ -3,7 +3,9 @@ import { changeFontSizeBy, changeTabSize } from "@/lib/settings/settingsSlice";
 import { maximumFontSize, minimumFontSize } from "@/utils/constants";
 
 const useChangeEditorOptions = () => {
-	const { fontSize } = useAppSelector((state) => state.settings.options);
+	const { fontSize, tabSize } = useAppSelector(
+		(state) => state.settings.options
+	);
 	const dispatch = useAppDispatch();
 
 	const increaseOrDecreaseBy = 2;
@@ -24,6 +26,7 @@ const useChangeEditorOptions = () => {
 		decreaseFont,
 		changeTabSizeToTwo,
 		changeTabSizeToFour,
+		tabSize,
 	};
 };
 

@@ -21,8 +21,17 @@ export default function MainLayout({
 		<AppRouterCacheProvider>
 			<ThemeProvider theme={theme}>
 				<Container component='main' maxWidth='xl'>
-					<Grid container>
-						<Grid size={2}>{files}</Grid>
+					<Grid container spacing={1}>
+						<Grid
+							size={2}
+							component='aside'
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: 2,
+							}}>
+							{files}
+						</Grid>
 						<Grid size={10}>{codeEditor}</Grid>
 					</Grid>
 					{children}

@@ -24,7 +24,7 @@ export const settingsSlice = createSlice({
 		changeFontSizeBy: (state, action: PayloadAction<number>) => {
 			state.options.fontSize += action.payload;
 		},
-		changeTabSize: (state, action: PayloadAction<number>) => {
+		changeTabSize: (state, action: PayloadAction<2 | 4>) => {
 			state.options.tabSize = action.payload;
 		},
 	},
