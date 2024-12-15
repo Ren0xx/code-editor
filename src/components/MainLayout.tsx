@@ -25,11 +25,7 @@ export default function MainLayout({
 						<Grid
 							size={2}
 							component='aside'
-							sx={{
-								display: "flex",
-								flexDirection: "column",
-								gap: 2,
-							}}>
+							>
 							{files}
 						</Grid>
 						<Grid size={10}>{codeEditor}</Grid>

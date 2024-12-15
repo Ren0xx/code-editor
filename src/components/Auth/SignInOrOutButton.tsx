@@ -5,7 +5,6 @@ export default function SignInOrOutButton() {
 
 	const commonStyles = {
 		position: "sticky",
-		bottom: 10,
 		mt: "auto",
 		px: 2,
 	};
