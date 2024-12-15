@@ -1,3 +1,4 @@
+import useThemeChange from "@/hooks/useThemeChange";
 import { type EditorTheme, themeOptions } from "@/types/stateTypes";
 import {
 	FormControl,
@@ -7,11 +8,15 @@ import {
 	type SelectChangeEvent,
 } from "@mui/material";
 type ThemeSelectorProps = {
-	theme: EditorTheme;
-	handleThemeChange: (e: SelectChangeEvent) => void;
+	editorTheme: EditorTheme;
 };
 const ThemeSelector = (props: ThemeSelectorProps) => {
-	const { theme, handleThemeChange } = props;
+	const { editorTheme: theme } = props;
+	const { changeEditorTheme } = useThemeChange();
+
+	const handleThemeChange = (e: SelectChangeEvent) => {
+		changeEditorTheme(e.target.value as EditorTheme);
+	};
 	return (
 		<FormControl>
 			<InputLabel id='theme-select-label'>Theme</InputLabel>

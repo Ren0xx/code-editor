@@ -22,10 +22,7 @@ export default function MainLayout({
 			<ThemeProvider theme={theme}>
 				<Container component='main' maxWidth='xl'>
 					<Grid container spacing={1}>
-						<Grid
-							size={2}
-							component='aside'
-							>
+						<Grid size={2} component='aside'>
 							{files}
 						</Grid>
 						<Grid size={10}>{codeEditor}</Grid>

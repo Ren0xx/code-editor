@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const SharedFilesLink = () => {
 	return (
-		<MuiLink href='/sharedFiles' component={Link} variant="h5">
+		<MuiLink href='/sharedFiles' component={Link} variant='h5'>
 			Shared Files
 		</MuiLink>
 	);

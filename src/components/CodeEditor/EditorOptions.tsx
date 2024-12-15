@@ -1,6 +1,6 @@
 import useChangeEditorOptions from "@/hooks/useChangeEditorOptions";
 
-import { IconButton, Paper } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -17,8 +17,10 @@ const EditorOptions = () => {
 	} = useChangeEditorOptions();
 	const isTabSizeTwo = tabSize === 2;
 	return (
-		<Paper>
-			<h3>Font Size:</h3>
+		<div>
+			<Typography variant='h6' component='h3'>
+				Font Size:
+			</Typography>
 			<SecondaryContainedButton onClick={decreaseFont}>
 				<ArrowDownwardIcon />
 			</SecondaryContainedButton>
@@ -26,14 +28,16 @@ const EditorOptions = () => {
 				<ArrowUpwardIcon />
 			</SecondaryContainedButton>
 
-			<h3>Tabs Size:</h3>
+			<Typography variant='h6' component='h3'>
+				Tabs Size:
+			</Typography>
 			<SecondaryContainedButton onClick={changeTabSizeToTwo}>
 				<LooksTwoIcon color={!isTabSizeTwo ? "disabled" : "action"} />
 			</SecondaryContainedButton>
 			<SecondaryContainedButton onClick={changeTabSizeToFour}>
 				<Looks4Icon color={isTabSizeTwo ? "disabled" : "action"} />
 			</SecondaryContainedButton>
-		</Paper>
+		</div>
 	);
 };
 
