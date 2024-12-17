@@ -5,12 +5,11 @@ const lightTheme = createTheme({
 	palette: {
 		mode: "light",
 		primary: {
-			main: "#512da8",
+			main: "#323F8C",
 		},
 		secondary: {
-			main: "#9e9d24",
+			main: alpha("#2C387E", 0.8),
 		},
-		divider: "#000000",
 	},
 	typography: {
 		button: {
@@ -35,7 +34,6 @@ const darkTheme = createTheme({
 			main: alpha("#2C387E", 0.3),
 		},
 		divider: "#ffffff",
-		// background: { default: "#1f1f39" },
 	},
 
 	typography: {
