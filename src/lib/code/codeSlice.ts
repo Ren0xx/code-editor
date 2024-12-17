@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CodeState, File, Language } from "@/types/stateTypes";
-import { defaultFile } from "@/utils/constants";
+import { defaultFile, MAXIMUM_FILES_LIMIT } from "@/utils/constants";
 
 export const initialState: CodeState = {
 	files: [defaultFile],
@@ -29,6 +29,7 @@ export const codeSlice = createSlice({
 			}
 		},
 		createFile: (state, action: PayloadAction<File>) => {
+			if (state.files.length === MAXIMUM_FILES_LIMIT) return;
 			state.files.push(action.payload);
 			state.activeFile = action.payload;
 		},

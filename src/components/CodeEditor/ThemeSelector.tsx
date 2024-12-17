@@ -18,9 +18,10 @@ const ThemeSelector = (props: ThemeSelectorProps) => {
 		changeEditorTheme(e.target.value as EditorTheme);
 	};
 	return (
-		<FormControl>
+		<FormControl variant='standard'>
 			<InputLabel id='theme-select-label'>Theme</InputLabel>
 			<Select
+				label={theme}
 				labelId='theme-select-label'
 				value={theme}
 				onChange={handleThemeChange}>

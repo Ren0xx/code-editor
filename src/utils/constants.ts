@@ -58,6 +58,7 @@ export const FILE_SHARE_LIMIT = 5;
 export const MAX_CONTENT_LENGTH = 50000;
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
+export const MAXIMUM_FILES_LIMIT = 25;
 export {
 	defaultFile,
 	defaultOptions,

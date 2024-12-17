@@ -3,7 +3,11 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { createFile, renameFile } from "@/lib/code/codeSlice";
 
-import { defaultCode, defaultLanguage } from "@/utils/constants";
+import {
+	defaultCode,
+	defaultLanguage,
+	MAXIMUM_FILES_LIMIT,
+} from "@/utils/constants";
 import { getLanguageFromExtension } from "@/utils/helperFunctions";
 
 import { useForm } from "react-hook-form";
@@ -27,6 +31,9 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 
 	const files = useAppSelector((state) => state.code.files);
 	const filesNames = files.map((file) => file.name);
+
+	const isSubmitButtonDisabled =
+		files.length === MAXIMUM_FILES_LIMIT && action === "create";
 
 	const formSchema = createOrRenameSchema(filesNames);
 	const {
@@ -81,7 +88,10 @@ const CreateOrRenameFileForm = (props: FormProps) => {
 					error={!!errors.fileName}
 					helperText={errors.fileName?.message}
 				/>
-				<Button type='submit' variant='contained'>
+				<Button
+					type='submit'
+					variant='contained'
+					disabled={isSubmitButtonDisabled}>
 					{action === "create" ? "Create File" : "Rename File"}
 				</Button>
 			</Box>
