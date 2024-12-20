@@ -3,9 +3,10 @@ import { saveAs } from "file-saver";
 import isUUID from "validator/es/lib/isUUID";
 import { extensionMap } from "./constants";
 
-// const getFileExtension = (lang: Language) => {
-// 	return extensionMap[lang] || "txt";
-// };
+const availableTypes = Object.keys(extensionMap).map((key) =>
+	key.toUpperCase()
+);
+
 const getLanguageFromExtension = (extension: string): Language | undefined => {
 	const languageMap = Object.fromEntries(
 		Object.entries(extensionMap).map(([lang, ext]) => [ext, lang])
@@ -23,5 +24,10 @@ const isValidUUID4 = (value: string): boolean => {
 	const version = 4;
 	return isUUID(value, version);
 };
-export { saveCodeToFile, getLanguageFromExtension, isValidUUID4 };
+export {
+	availableTypes,
+	saveCodeToFile,
+	getLanguageFromExtension,
+	isValidUUID4,
+};
 
